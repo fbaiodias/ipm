@@ -24,6 +24,8 @@ bunny.position.y = 150;
 
 stage.addChild(bunny);
 
+setEventHandlers();
+
 function animate() {
 
   requestAnimFrame( animate );
@@ -34,3 +36,29 @@ function animate() {
   // render the stage
   renderer.render(stage);
 }
+
+// Event handlers!!
+var setEventHandlers = function() {
+	// Keyboard
+	window.addEventListener("keydown", onKeydown, false);
+	window.addEventListener("keyup", onKeyup, false);
+
+	// Window resize
+	window.addEventListener("resize", onResize, false);
+};
+
+// Keyboard key down
+function onKeydown(e) {
+	keys.onKeyDown(e);
+};
+
+// Keyboard key up
+function onKeyup(e) {
+	keys.onKeyUp(e);
+};
+
+// Browser window resize
+function onResize(e) {
+	// Maximise the canvas
+	renderer.resize(window.innerWidth, window.innerHeight);
+};

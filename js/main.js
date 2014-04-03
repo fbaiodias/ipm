@@ -27,6 +27,7 @@ stage.addChild(bunny);
 
 function init() {
   setEventHandlers();
+  renderer.resize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {

@@ -24,7 +24,10 @@ bunny.position.y = 150;
 
 stage.addChild(bunny);
 
-setEventHandlers();
+
+function init() {
+  setEventHandlers();
+}
 
 function animate() {
 
@@ -62,3 +65,6 @@ function onResize(e) {
 	// Maximise the canvas
 	renderer.resize(window.innerWidth, window.innerHeight);
 };
+
+
+init();

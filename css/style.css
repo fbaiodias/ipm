@@ -18,7 +18,7 @@ li {
   background: yellow;
   padding: 20 0 20 0;
   left: -10px;
-  width: 100px;
+  width: 200px;
   margin: 10 0 10 0;
   -webkit-transform: skew(-15deg);
   -moz-transform: skew(-15deg);
@@ -33,7 +33,7 @@ li.selected {
   -o-transform: skew(-15deg);
 }
 
-#path {
+.path {
   text-align: center;
   position: relative;
   background: green;
@@ -42,7 +42,7 @@ li.selected {
   margin: 10 0 10 0;
 }
 
-#path:before {
+.path:before {
 content: "";
 position: absolute;
 left: 100%;

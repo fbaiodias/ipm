@@ -1,5 +1,5 @@
 body {
-	background: blue;
+	background: url(../img/road.jpg) center no-repeat;
 	overflow: hidden;
   font-family: 'Exo', sans-serif;
 }

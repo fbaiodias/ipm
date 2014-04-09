@@ -17,7 +17,7 @@ li {
   position: relative;
   text-align: left;
   background: yellow;
-  padding: 20 0 20 40px;
+  padding: 20 20 20 40px;
   left: -10px;
   width: 200px;
   margin: 10 0 10 0;
@@ -33,6 +33,18 @@ li.selected {
   -webkit-transform: skew(-15deg);
   -moz-transform: skew(-15deg);
   -o-transform: skew(-15deg);
+}
+
+li input:last-child {
+  position: absolute;
+  right: 20px;   /* must be equal to parent's right padding */
+  font-size: 40px;
+}
+
+li span:last-child {
+  position: absolute;
+  right: 20px;   /* must be equal to parent's right padding */
+  font-size: 20px;
 }
 
 #path {

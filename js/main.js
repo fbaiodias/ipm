@@ -51,7 +51,9 @@ $(window).load(function(){
       }else if(e.which === 39){
         if(liSelected) {
           if(liSelected[0].title) {
-            $("#path").append('<span>'+liSelected[0].textContent+'</span>');
+            var pathText = liSelected[0].textContent;
+            pathText = pathText.substring(0, pathText.indexOf(">"));
+            $("#path").append('<span>'+pathText+'</span>');
             console.log(liSelected)
             goToMenu(liSelected[0].title);
 

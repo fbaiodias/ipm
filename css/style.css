@@ -4,6 +4,11 @@ body {
   font-family: 'Exo', sans-serif;
 }
 
+.body-test {
+  background: url(../img/night.jpg) center no-repeat;
+  background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;
+ }
+
 canvas {
 	background: #fff;
 	display: block;
@@ -15,12 +20,12 @@ ul {
 li {
   border-radius: 5px;
 
-  color: #e9e9ec;
-  opacity: 0.5;
+  color: #000;
+  opacity: 0.6;
   position: relative;
   text-align: left;
   /*cor bloquedo: 53545b*/
-  background: #9d9fad;
+  background: #fff;
   padding: 20 20 20 40px;
   left: -15px;
   width: 300px;
@@ -30,18 +35,10 @@ li {
   -o-transform: skew(-15deg);
   font-size: 20;
   /*outline: solid white 1px;*/
-
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-
 }
 
 li.selected {
   opacity: 0.8;
-  background: #9d9fad;
   width: 350px;
   -webkit-transform: skew(-15deg);
   -moz-transform: skew(-15deg);
@@ -74,7 +71,6 @@ li span:last-child {
   left: -10px;
   text-align: left;
   height: 50px;
-  min-width: 100px;
   margin: 10px 0 10px 0;
   padding: 20px 20px 0 0;
   -webkit-transform: skew(-15deg);
@@ -83,7 +79,8 @@ li span:last-child {
 }
 
 #path span{
-  background: #e9e9ec;
+  border-radius: 3px;
+  background: #fff;
   font-size: 20px;
   margin: 2px;
   padding: 10 10 10 10px;
@@ -101,4 +98,20 @@ li span:last-child {
 
 #button img{
 
+}
+
+#problem {
+  border-radius: 5px;
+
+  color: #000;
+  opacity: 0.6;
+  background: #fff;
+  padding: 20 0 20 0px;
+  width: 300px;
+  margin: 10 0 10 0;
+
+}
+
+b.selected {
+  font-size: 150%;
 }

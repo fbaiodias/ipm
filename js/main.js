@@ -73,8 +73,8 @@ $(window).load(function(){
             if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
             $('#end-hours').html(++options.tests.interval.end.hours);
           } else if(liSelected[0].children[0].id === "end-minutes"){
-            if(options.tests.interval.start.minutes > 58) options.tests.interval.start.minutes = -1;
-            $('#start-minutes').html(++options.tests.interval.start.minutes);
+            if(options.tests.interval.end.minutes > 58) options.tests.interval.end.minutes = -1;
+            $('#end-minutes').html(++options.tests.interval.end.minutes);
           } else if(liSelected[0].children[0]){
             if(liSelected[0].children[0].checked) {
               liSelected[0].children[0].checked = false;

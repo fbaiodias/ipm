@@ -144,9 +144,31 @@ b.selected {
   text-align: center;
 }
 
+#timer {
+  font-size: 30;
+  border-radius: 1000px;
+  color: #000;
+  opacity: 0.8;
+  background: #fff;
+  padding: 25 10 25 10px;
+  width: 60px;
+  margin: 10 0 0 0;
+  text-align: center;
+  display: none;
+
+}
+
 #result {
   font-size: 45;
   left: 20px;
   top: 6px;
   position: relative;
+}
+
+#problemAfter {
+  display: none;
+}
+
+#testFailed {
+  display: none;
 }

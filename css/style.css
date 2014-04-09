@@ -13,6 +13,7 @@ ul {
 }
 
 li {
+  opacity: 0.4;
   position: relative;
   text-align: left;
   background: yellow;
@@ -26,6 +27,7 @@ li {
 }
 
 li.selected {
+  opacity: 0.8;
   background: yellow;
   width: 300px;
   -webkit-transform: skew(-15deg);
@@ -34,6 +36,7 @@ li.selected {
 }
 
 #path {
+  opacity: 0.6;
   position: relative;
   left: -10px;
   text-align: left;

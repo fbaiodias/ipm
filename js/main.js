@@ -51,6 +51,8 @@ $(window).load(function(){
       }else if(e.which === 39){
         if(liSelected) {
           if(liSelected[0].title) {
+            $("#path").append('<span>'+liSelected[0].textContent+'</span>');
+            console.log(liSelected)
             goToMenu(liSelected[0].title);
 
             if(liSelected[0].children[0].id === "start-hours") {
@@ -85,6 +87,7 @@ $(window).load(function(){
         var ul = $('ul');
         if(ul && ul[0].title) {
           goToMenu(ul[0].title);
+          $("#path").children().last().remove();
         }
       }
 

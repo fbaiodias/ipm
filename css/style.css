@@ -14,9 +14,9 @@ ul {
 
 li {
   position: relative;
-  text-align: center;
+  text-align: left;
   background: yellow;
-  padding: 20 0 20 0;
+  padding: 20 0 20 40px;
   left: -10px;
   width: 200px;
   margin: 10 0 10 0;
@@ -33,22 +33,23 @@ li.selected {
   -o-transform: skew(-15deg);
 }
 
-.path {
-  text-align: center;
+#path {
   position: relative;
-  background: green;
-  width: 100px;
+  left: -10px;
+  text-align: left;
   height: 50px;
-  margin: 10 0 10 0;
+  min-width: 100px;
+  margin: 10px 0 10px 0;
+  padding: 20px 20px 0 0;
+  -webkit-transform: skew(-15deg);
+  -moz-transform: skew(-15deg);
+  -o-transform: skew(-15deg);
 }
 
-.path:before {
-content: "";
-position: absolute;
-left: 100%;
-width: 0;
-height: 0;
-border-top: 25px solid transparent;
-border-left: 10px solid green;
-border-bottom: 25px solid transparent;
+#path span{
+  background: green;
+  font-size: 30px;
+  margin: 2px;
+  padding: 10 10 10 10px;
+
 }

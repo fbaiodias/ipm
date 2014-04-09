@@ -19,8 +19,6 @@ var options = {
 
 $(window).load(function(){
   goToMenu("testes-calculo");
-  $("#button").attr("src","img/button3.png");
-
 
 
   li = $('b');
@@ -54,21 +52,13 @@ $(window).load(function(){
       }else if(e.which === 38){
         var number = eval(liSelected[0].textContent);
         if(number<9) {number++;}
+        else {number = 0}
         liSelected[0].textContent = number;          
       }else if(e.which === 40){
         var number = eval(liSelected[0].textContent);
         if(number>0) {number--;}
+        else {number = 9}
         liSelected[0].textContent = number;          
-      }
-
-
-      //Alterar botao
-      if(liSelected[0].children[0].children[0].type === "checkbox"){
-        $("#button").attr("src","img/button4.png");
-      } else if (liSelected[0].children[0].children[1] && liSelected[0].children[0].children[1].textContent.indexOf('+') != -1) {
-        $("#button").attr("src","img/button5.png");
-      } else {
-        $("#button").attr("src","img/button3.png");
       }
 
   });

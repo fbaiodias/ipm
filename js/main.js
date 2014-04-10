@@ -20,6 +20,7 @@ var options = {
 var menuOpen = false;
 
 $(window).load(function(){
+  goToMenu("main");
 
   li = $('li');
   liSelected = li.eq(0).addClass('selected');;;
@@ -40,6 +41,7 @@ $(window).load(function(){
           }
         }else{
           goToMenu("menu");
+          $("#path").append('<span>Configurações</span>');
           $("#button").attr("src","img/button3.png");
           menuOpen = true;
         }
@@ -97,6 +99,11 @@ $(window).load(function(){
         if(ul && ul[0].title) {
           goToMenu(ul[0].title);
           $("#path").children().last().remove();
+        } else {
+          goToMenu("main");
+          $("#path").children().last().remove();
+          menuOpen = false;
+          $("#button").attr("src","img/button1.png");
         }
       }
 

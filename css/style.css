@@ -116,6 +116,7 @@ b.selected {
   margin-bottom: -20px;
   top: 6px;
   position: relative;
+  background-image: url('../img/arrows.png');
 }
 
 #testPath {
@@ -159,6 +160,7 @@ b.selected {
 }
 
 #result {
+  min-height: 200;
   font-size: 45;
   left: 20px;
   top: 6px;

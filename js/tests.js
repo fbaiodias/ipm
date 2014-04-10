@@ -14,19 +14,20 @@ var options = {
       }
     },
     "type": [],
-    "start": false,
-    "time": 30
   } 
 } 
+var start = false;
+var time = 30;
 
+var CORRECT_ANSWER = 9;
+var answer = 0;
 $(window).load(function(){
   goToMenu("testes-calculo");
 
   li = $('b');
   liSelected = li.eq(0).addClass('selected');;;
   $(window).keydown(function(e){
-
-      if(options.tests.start) {
+      if(start) {
         if(e.which === 39){
             if(liSelected){
                 liSelected.removeClass('selected');
@@ -53,7 +54,9 @@ $(window).load(function(){
             }
         }else if(e.which === 38){
           var number = eval(liSelected[0].textContent);
-          if(number<9) {number++;}
+          if(number<9) {
+            number++;
+          }
           else {number = 0}
           liSelected[0].textContent = number;          
         }else if(e.which === 40){
@@ -63,15 +66,15 @@ $(window).load(function(){
           liSelected[0].textContent = number;          
         }
       } else {
-        options.tests.start = true;
+        start = true;
         $("#problemBefore").toggle();
         $("#problemAfter").toggle();
         $("#timer").toggle();
 
         setTimeout(testCountDown, 1000);
 
-
       }
+      answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
 
 
       
@@ -100,13 +103,19 @@ function getHTML(url) {
 }
 
 function testCountDown() {
-  if (options.tests.time <= 0) {
+  if (time <= 0) {
     $("#problemAfter").toggle();
     $("#testFailed").toggle();
     $("#timer").toggle();
-  } else {
-    options.tests.time--;
-    $('#timerNumber').text(options.tests.time);
+  } else if (answer === CORRECT_ANSWER) {
+    $("#problemAfter").toggle();
+    $("#timer").toggle();
+    $("#testPassed").toggle();
+  }
+
+  else {
+    time--;
+    $('#timerNumber').text(time);
     setTimeout(testCountDown, 1000);
   }
 }

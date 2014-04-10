@@ -46,6 +46,11 @@ li.selected {
   outline-width: 2px;
 }
 
+li.disabled {
+  background-color: #b5b5b5;
+  color: #4b4b4b;
+}
+
 li input:last-child {
   position: absolute;
   right: 20px;   /* must be equal to parent's right padding */
@@ -60,7 +65,7 @@ li div {
 
 li span:last-child {
   position: absolute;
-  right: 20px;   /* must be equal to parent's right padding */
+  right: 10px;   /* must be equal to parent's right padding */
   font-size: 20px;
 
 }

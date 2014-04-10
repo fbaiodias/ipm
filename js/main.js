@@ -23,18 +23,20 @@ $(window).load(function(){
   goToMenu("main");
 
   li = $('li');
-  liSelected = li.eq(0).addClass('selected');;;
+  liSelected = li.eq(0).addClass('selected');
   $(window).keydown(function(e){
 
       if(e.which === 40){
         if(menuOpen) {
           if(liSelected){
-              liSelected.removeClass('selected');
+              
               next = liSelected.next();
-              if(next.length > 0){
-                  liSelected = next.addClass('selected');
-              }else{
-                  liSelected = li.eq(0).addClass('selected');
+              if(next.length > 0 && !next.hasClass("disabled")){
+                liSelected.removeClass('selected');
+                liSelected = next.addClass('selected');
+              }else if (!li.eq(0).hasClass("disabled")){
+                liSelected.removeClass('selected');
+                liSelected = li.eq(0).addClass('selected');
               }
           }else{
               liSelected = li.eq(0).addClass('selected');
@@ -46,71 +48,109 @@ $(window).load(function(){
           menuOpen = true;
         }
       }else if(e.which === 38){
+        if(menuOpen) {
           if(liSelected){
-              liSelected.removeClass('selected');
               next = liSelected.prev();
-              if(next.length > 0){
+              if(next.length > 0 && !next.hasClass("disabled")){
+                  liSelected.removeClass('selected');
                   liSelected = next.addClass('selected');
-              }else{
+              }else if (!li.last().hasClass("disabled")){
+                  liSelected.removeClass('selected');
                   liSelected = li.last().addClass('selected');
               }
           }else{
               liSelected = li.last().addClass('selected');
           }
+        }
       }else if(e.which === 39){
-        if(liSelected) {
-          if(liSelected[0].title) {
-            var pathText = liSelected[0].textContent;
-            pathText = pathText.substring(0, pathText.indexOf(">"));
-            $("#path").append('<span>'+pathText+'</span>');
-            console.log(liSelected)
-            goToMenu(liSelected[0].title);
+        if(menuOpen) {
+          if(liSelected) {
+            if(liSelected[0].title) {
+              var pathText = liSelected[0].textContent;
+              pathText = pathText.substring(0, pathText.indexOf(">"));
+              $("#path").append('<span>'+pathText+'</span>');
+              goToMenu(liSelected[0].title);
 
-            if(liSelected[0].children[0].children[0].id === "start-hours") {
-              $('#start-hours').html(options.tests.interval.start.hours);
-              $('#start-minutes').html(options.tests.interval.start.minutes);
-            }else if(liSelected[0].children[0].children[0].id === "end-hours") {
-              $('#end-hours').html(options.tests.interval.end.hours);
-              $('#end-minutes').html(options.tests.interval.end.minutes);
-            }
 
-          } else if(liSelected[0].children[0].children[0].id === "start-hours"){
-            if(options.tests.interval.start.hours > 22) options.tests.interval.start.hours = -1;
-            $('#start-hours').html(++options.tests.interval.start.hours);
-          } else if(liSelected[0].children[0].children[0].id === "start-minutes"){
-            if(options.tests.interval.start.minutes > 58) options.tests.interval.start.minutes = -1;
-            $('#start-minutes').html(++options.tests.interval.start.minutes);
-          } else if(liSelected[0].children[0].children[0].id === "end-hours"){
-            if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
-            $('#end-hours').html(++options.tests.interval.end.hours);
-          } else if(liSelected[0].children[0].children[0].id === "end-minutes"){
-            if(options.tests.interval.end.minutes > 58) options.tests.interval.end.minutes = -1;
-            $('#end-minutes').html(++options.tests.interval.end.minutes);
-          } else if(liSelected[0].children[0]){
-            if(liSelected[0].children[0].children[0].checked) {
-              liSelected[0].children[0].children[0].checked = false;
-            } else {
-              liSelected[0].children[0].children[0].checked = true;
+              if(liSelected[0].children[0].children[0].id === "start-hours") {
+                $('#start-hours').html(options.tests.interval.start.hours);
+                $('#start-minutes').html(options.tests.interval.start.minutes);
+              }else if(liSelected[0].children[0].children[0].id === "end-hours") {
+                $('#end-hours').html(options.tests.interval.end.hours);
+                $('#end-minutes').html(options.tests.interval.end.minutes);
+              }
+
+            } else if(liSelected[0].children[0].children[0].id === "start-hours"){
+              if(options.tests.interval.start.hours > 22) options.tests.interval.start.hours = -1;
+              $('#start-hours').html(++options.tests.interval.start.hours);
+            } else if(liSelected[0].children[0].children[0].id === "start-minutes"){
+              if(options.tests.interval.start.minutes > 58) options.tests.interval.start.minutes = -1;
+              $('#start-minutes').html(++options.tests.interval.start.minutes);
+            } else if(liSelected[0].children[0].children[0].id === "end-hours"){
+              if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
+              $('#end-hours').html(++options.tests.interval.end.hours);
+            } else if(liSelected[0].children[0].children[0].id === "end-minutes"){
+              if(options.tests.interval.end.minutes > 58) options.tests.interval.end.minutes = -1;
+              $('#end-minutes').html(++options.tests.interval.end.minutes);
+            } else if(liSelected[0].children[0]){
+              if(liSelected[0].children[0].children[0].checked) {
+                liSelected[0].children[0].children[0].checked = false;
+                if (liSelected[0].children[0].children[0].id === "testsActive") {
+                  $("li").next(liSelected[0]).addClass("disabled");
+                  options.tests.active = false;
+                } else {
+                  options.tests.type[$("li").index(liSelected[0])] = false;
+                }
+              } else {
+                liSelected[0].children[0].children[0].checked = true;
+                if (liSelected[0].children[0].children[0].id === "testsActive") {
+                  $("li").next(liSelected[0]).removeClass("disabled");
+                  options.tests.active = true;
+                } else {
+                  options.tests.type[$("li").index(liSelected[0])] = true;
+                }
+              }
             }
           }
         }
       }else if(e.which === 37){
-        var ul = $('ul');
-        if(ul && ul[0].title) {
-          goToMenu(ul[0].title);
-          $("#path").children().last().remove();
-        } else {
-          goToMenu("main");
-          $("#path").children().last().remove();
-          menuOpen = false;
-          $("#button").attr("src","img/button1.png");
+        if(menuOpen) {
+          var ul = $('ul');
+          if(ul && ul[0].title) {
+            goToMenu(ul[0].title);
+            $("#path").children().last().remove();
+          } else {
+            goToMenu("main");
+            $("#path").children().last().remove();
+            menuOpen = false;
+            $("#button").attr("src","img/button1.png");
+          }
         }
+      }
+
+
+      //Checkboxes
+      if (options.tests.active) {
+        $('#testsActive').prop('checked', true);
+        $("li").next(liSelected[0]).removeClass("disabled");
+      }
+
+      for (var i = 0; i < 6 ; i++) {
+        if (options.tests.type[i]) {
+          $("li").get(i).children[0].children[0].checked = true;
+        }
+       
       }
 
 
       //Alterar botao
       if(liSelected[0].children[0].children[0].type === "checkbox"){
-        $("#button").attr("src","img/button4.png");
+        if(liSelected[0].children[0].children[0].checked === true) {
+          $("#button").attr("src","img/button6.png");
+        } else {
+          $("#button").attr("src","img/button4.png");
+        }
+        
       } else if (liSelected[0].children[0].children[1] && liSelected[0].children[0].children[1].textContent.indexOf('+') != -1) {
         $("#button").attr("src","img/button5.png");
       } else {

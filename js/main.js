@@ -96,7 +96,9 @@ $(window).load(function(){
               if(liSelected[0].children[0].children[0].checked) {
                 liSelected[0].children[0].children[0].checked = false;
                 if (liSelected[0].children[0].children[0].id === "testsActive") {
-                  $("li").next(liSelected[0]).addClass("disabled");
+                  if ($("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
+                    $("li").next(liSelected[0]).addClass("disabled");
+                  }
                   options.tests.active = false;
                 } else {
                   options.tests.type[$("li").index(liSelected[0])] = false;
@@ -104,7 +106,9 @@ $(window).load(function(){
               } else {
                 liSelected[0].children[0].children[0].checked = true;
                 if (liSelected[0].children[0].children[0].id === "testsActive") {
-                  $("li").next(liSelected[0]).removeClass("disabled");
+                  if ($("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
+                    $("li").next(liSelected[0]).removeClass("disabled");
+                  }
                   options.tests.active = true;
                 } else {
                   options.tests.type[$("li").index(liSelected[0])] = true;
@@ -132,7 +136,9 @@ $(window).load(function(){
       //Checkboxes
       if (options.tests.active) {
         $('#testsActive').prop('checked', true);
-        $("li").next(liSelected[0]).removeClass("disabled");
+        if ($("li").next(liSelected[0]).attr("title") && $("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
+          $("li").next(liSelected[0]).removeClass("disabled");
+        }
       }
 
       for (var i = 0; i < 6 ; i++) {

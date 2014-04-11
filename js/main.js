@@ -13,7 +13,7 @@ var options = {
         "minutes": 00,
       }
     },
-    "type": []
+    "type": [false, false, false, false, false]
   } 
 } 
 
@@ -64,6 +64,7 @@ $(window).load(function(){
         }
       }else if(e.which === 39){
         if(menuOpen) {
+
           if(liSelected) {
             if(liSelected[0].title) {
               var pathText = liSelected[0].textContent;
@@ -83,25 +84,37 @@ $(window).load(function(){
               if(options.tests.interval.start.hours > 22) options.tests.interval.start.hours = -1;
               $('#start-hours').html(++options.tests.interval.start.hours);
             } else if(liSelected[0].children[0].children[0].id === "start-minutes"){
-              if(options.tests.interval.start.minutes > 58) options.tests.interval.start.minutes = -1;
-              $('#start-minutes').html(++options.tests.interval.start.minutes);
+              if(options.tests.interval.start.minutes >= 50) options.tests.interval.start.minutes = -10;
+              options.tests.interval.start.minutes += 10;
+              $('#start-minutes').html(options.tests.interval.start.minutes);
             } else if(liSelected[0].children[0].children[0].id === "end-hours"){
               if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
               $('#end-hours').html(++options.tests.interval.end.hours);
             } else if(liSelected[0].children[0].children[0].id === "end-minutes"){
-              if(options.tests.interval.end.minutes > 58) options.tests.interval.end.minutes = -1;
+              if(options.tests.interval.end.minutes >= 50) options.tests.interval.end.minutes = -10;
               $('#end-minutes').html(++options.tests.interval.end.minutes);
             } else if(liSelected[0].children[0]){
               if(liSelected[0].children[0].children[0].checked) {
                 liSelected[0].children[0].children[0].checked = false;
+
                 if (liSelected[0].children[0].children[0].id === "testsActive") {
                   if ($("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
                     $("li").next(liSelected[0]).addClass("disabled");
                   }
                   options.tests.active = false;
                 } else {
+                  if (liSelected[0].children[0].children[0].value === "todos") {
+                    $('[name="tipo"]').prop("checked", false);
+                    for (var i = 0; i < 5 ; i++) {
+                      options.tests.type[i] = false;
+                    }
+                  }
+
+                  $('[value="todos"]').prop("checked", false);
+                  options.tests.type[0] = false;
                   options.tests.type[$("li").index(liSelected[0])] = false;
                 }
+
               } else {
                 liSelected[0].children[0].children[0].checked = true;
                 if (liSelected[0].children[0].children[0].id === "testsActive") {
@@ -112,9 +125,44 @@ $(window).load(function(){
                 } else {
                   options.tests.type[$("li").index(liSelected[0])] = true;
                 }
+
+
               }
             }
           }
+
+          if ($('[value="todos"]').is(':checked') ){
+            $('[name="tipo"]').prop("checked", true);
+            for (var i = 0; i < 5 ; i++) {
+              options.tests.type[i] = true;
+            }
+
+          } /*else {
+            $('[name="tipo"]').prop("checked", false);
+            for (var i = 0; i < 5 ; i++) {
+              options.tests.type[i] = false;
+            }
+          }*/
+
+          if ($('[name="tipo"]').is(':checked')) {
+            $('[value="todos"]').prop("checked", true);
+            options.tests.type[0] = true;
+          }
+          var allChecked = true;
+          for (var i = 1; i < 5 ; i++) {
+            console.log(options.tests.type[i]);
+            if (options.tests.type[i] != true) {
+              allChecked = false;
+            }
+          }
+          if (allChecked) {
+            $('[value="todos"]').prop("checked", true);
+          }
+
+
+
+
+
         }
       }else if(e.which === 37){
         if(menuOpen) {
@@ -140,11 +188,10 @@ $(window).load(function(){
         }
       }
 
-      for (var i = 0; i < 6 ; i++) {
+      for (var i = 0; i < 5 ; i++) {
         if (options.tests.type[i] && $("li").get(i)) {
           $("li").get(i).children[0].children[0].checked = true;
         }
-       
       }
 
 

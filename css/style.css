@@ -98,7 +98,7 @@ li img:last-child {
   width = 100%;
   text-align: center;
   position: fixed;
-  bottom: 80;
+  bottom: 120;
   height: 100px;
   width: 100%;
 }
@@ -194,4 +194,15 @@ input[type=checkbox]
   -webkit-transform: scale(2); /* Safari and Chrome */
   -o-transform: scale(2); /* Opera */
   padding: 10px;
+}
+
+#nota_testes {
+  border-radius: 5px;
+  color: #000;
+  opacity: 0.8;
+  background: #fff4a9;
+  padding: 20 0 20 10px;
+  margin: 20 0 0 20;
+  left: 20px;
+  width: 420px;
 }

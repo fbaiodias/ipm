@@ -142,7 +142,7 @@ $(window).load(function(){
       }
 
       for (var i = 0; i < 6 ; i++) {
-        if (options.tests.type[i]) {
+        if (options.tests.type[i] && $("li").get(i)) {
           $("li").get(i).children[0].children[0].checked = true;
         }
        

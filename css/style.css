@@ -63,10 +63,12 @@ li div {
   -o-transform: skew(15deg);
 }
 
-li span:last-child {
+li img:last-child {
   position: absolute;
-  right: 10px;   /* must be equal to parent's right padding */
-  font-size: 20px;
+  right: 0px;   /* must be equal to parent's right padding */
+  top:-4px;
+  width: 30px;
+
 
 }
 

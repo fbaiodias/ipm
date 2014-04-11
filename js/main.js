@@ -67,7 +67,6 @@ $(window).load(function(){
           if(liSelected) {
             if(liSelected[0].title) {
               var pathText = liSelected[0].textContent;
-              pathText = pathText.substring(0, pathText.indexOf(">"));
               $("#path").append('<span>'+pathText+'</span>');
               goToMenu(liSelected[0].title);
 
@@ -157,7 +156,8 @@ $(window).load(function(){
           $("#button").attr("src","img/button4.png");
         }
         
-      } else if (liSelected[0].children[0].children[1] && liSelected[0].children[0].children[1].textContent.indexOf('+') != -1) {
+      } else if (liSelected[0].children[0].children[1]) {
+
         $("#button").attr("src","img/button5.png");
       } else {
         $("#button").attr("src","img/button3.png");

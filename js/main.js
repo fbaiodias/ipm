@@ -144,7 +144,7 @@ $(window).load(function(){
             }
           }*/
 
-          if ($('[name="tipo"]').is(':checked')) {
+          /*if ($('[name="tipo"]').is(':checked')) {
             $('[value="todos"]').prop("checked", true);
             options.tests.type[0] = true;
           }
@@ -157,7 +157,7 @@ $(window).load(function(){
           }
           if (allChecked) {
             $('[value="todos"]').prop("checked", true);
-          }
+          }*/
 
 
 

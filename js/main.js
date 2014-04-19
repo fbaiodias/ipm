@@ -18,16 +18,18 @@ var options = {
 } 
 
 var menuOpen = false;
-var menu = "main"; // main/tests/share/poi
+var menu = "main";
 
 $(window).load(function(){
+
   goToMenu("main");
 
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
   $(window).keydown(function(e){
-
-      if(e.which === 40){
+    console.log(menuOpen);
+    console.log(menu);
+      if(e.which === 40){ //down
         if(menuOpen) {
           if(liSelected){
               
@@ -42,13 +44,33 @@ $(window).load(function(){
           }else{
               liSelected = li.eq(0).addClass('selected');
           }
-        }else{
-          goToMenu("menu");
-          $("#path").append('<span>Configurações</span>');
-          $("#button").attr("src","img/button3.png");
-          menuOpen = true;
+        } else { 
+          switch (menu) {
+            case "main":
+              goToMenu("help");
+              $("#path").append('<span>Ajuda</span>');
+              //$("#button").attr("src","img/button3.png");
+              menuOpen = true;
+            break;
+            case "testes":
+            break;
+            case "partilha":
+              goToMenu("partilha-config");
+              $("#path").append('<span>Opções</span>');
+              //$("#button").attr("src","img/button3.png");
+              menuOpen = true;
+              
+            break;
+            case "pontos":
+              goToMenu("pontos-config");
+              $("#path").append('<span>Opções</span>');
+              //$("#button").attr("src","img/button3.png");
+              menuOpen = true;
+            break;
+          }
+         
         }
-      }else if(e.which === 38){
+      }else if(e.which === 38){ //up
         if(menuOpen) {
           if(liSelected){
               next = liSelected.prev();
@@ -62,8 +84,25 @@ $(window).load(function(){
           }else{
               liSelected = li.last().addClass('selected');
           }
+        } else { 
+          switch (menu) {
+            case "main":
+              goToMenu("testes");
+              $("#path").append('<span>Testes de Aptidão para Condução</span>');
+              //$("#button").attr("src","img/button3.png");
+              menuOpen = true;
+              
+            break;
+            case "testes":
+            break;
+            case "partilha":
+            break;
+            case "pontos":
+            break;
+          }
+          
         }
-      }else if(e.which === 39){
+      }else if(e.which === 39){ //right
         if(menuOpen) {
 
           if(liSelected) {
@@ -160,22 +199,46 @@ $(window).load(function(){
             $('[value="todos"]').prop("checked", true);
           }*/
 
-
-
-
-
+        } else { 
+          switch (menu) {
+            case "main":
+              goToMenu("pontos");
+              $("#path").append('<span>Pontos de Interesse</span>');
+              //$("#button").attr("src","img/button3.png");
+              
+            break;
+            case "testes":
+            break;
+            case "partilha":
+            break;
+            case "pontos":
+            break;
+          }
         }
-      }else if(e.which === 37){
-        if(menuOpen) {
-          var ul = $('ul');
-          if(ul && ul[0].title) {
-            goToMenu(ul[0].title);
-            $("#path").children().last().remove();
-          } else {
-            goToMenu("main");
-            $("#path").children().last().remove();
-            menuOpen = false;
-            $("#button").attr("src","img/button1.png");
+      }else if(e.which === 37){ //left
+        if(menuOpen || (menu.split("-").length - 1) <= 1) {
+            var ul = $('ul');
+            if(ul && ul[0].title) {
+              goToMenu(ul[0].title);
+              $("#path").children().last().remove();
+            }
+          if ((menu.split("-").length - 1) <= 1) {//caso em que estamos no primeiro menu de uma funcionalidade
+              menuOpen = false;
+          }
+        } else { 
+          switch (menu) {
+            case "main":
+              goToMenu("partilha");
+              $("#path").append('<span>Partilha de Informação</span>');
+              //$("#button").attr("src","img/button3.png");
+              
+            break;
+            case "testes":
+            break;
+            case "partilha":
+            break;
+            case "pontos":
+            break;
           }
         }
       }
@@ -210,11 +273,11 @@ $(window).load(function(){
       } else {
         $("#button").attr("src","img/button3.png");
       }
-
   });
 });
 
 function goToMenu(id) {
+  menu = id;
   var html = getHTML("partials/"+id+".html");
 
   $('#container').html(html);

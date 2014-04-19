@@ -17,7 +17,6 @@ var options = {
   } 
 } 
 
-var menuOpen = false;
 var menu = "main";
 
 $(window).load(function(){
@@ -27,12 +26,27 @@ $(window).load(function(){
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
   $(window).keydown(function(e){
-    console.log(menuOpen);
     console.log(menu);
       if(e.which === 40){ //down
-        if(menuOpen) {
-          if(liSelected){
-              
+        switch (menu) {
+          case "main":
+            goToMenu("help");
+            $("#path").append('<span>Ajuda</span>');
+            //$("#button").attr("src","img/button3.png");
+          break;
+          case "partilha":
+            goToMenu("partilha-config");
+            $("#path").append('<span>Opções</span>');
+            //$("#button").attr("src","img/button3.png");
+            
+          break;
+          case "pontos":
+            goToMenu("pontos-config");
+            $("#path").append('<span>Opções</span>');
+            //$("#button").attr("src","img/button3.png");
+          break;
+          default:
+            if(liSelected){
               next = liSelected.next();
               if(next.length > 0 && !next.hasClass("disabled")){
                 liSelected.removeClass('selected');
@@ -41,38 +55,24 @@ $(window).load(function(){
                 liSelected.removeClass('selected');
                 liSelected = li.eq(0).addClass('selected');
               }
-          }else{
-              liSelected = li.eq(0).addClass('selected');
-          }
-        } else { 
-          switch (menu) {
-            case "main":
-              goToMenu("help");
-              $("#path").append('<span>Ajuda</span>');
-              //$("#button").attr("src","img/button3.png");
-              menuOpen = true;
-            break;
-            case "testes":
-            break;
-            case "partilha":
-              goToMenu("partilha-config");
-              $("#path").append('<span>Opções</span>');
-              //$("#button").attr("src","img/button3.png");
-              menuOpen = true;
-              
-            break;
-            case "pontos":
-              goToMenu("pontos-config");
-              $("#path").append('<span>Opções</span>');
-              //$("#button").attr("src","img/button3.png");
-              menuOpen = true;
-            break;
-          }
-         
+            }else{
+                liSelected = li.eq(0).addClass('selected');
+            }
         }
+
       }else if(e.which === 38){ //up
-        if(menuOpen) {
-          if(liSelected){
+        switch (menu) {
+          case "main":
+            goToMenu("testes");
+            $("#path").append('<span>Testes de Aptidão para Condução</span>');
+            //$("#button").attr("src","img/button3.png");
+          break;
+          case "partilha":
+          break;
+          case "pontos":
+          break;
+          default:
+            if(liSelected){
               next = liSelected.prev();
               if(next.length > 0 && !next.hasClass("disabled")){
                   liSelected.removeClass('selected');
@@ -81,69 +81,61 @@ $(window).load(function(){
                   liSelected.removeClass('selected');
                   liSelected = li.last().addClass('selected');
               }
-          }else{
-              liSelected = li.last().addClass('selected');
-          }
-        } else { 
-          switch (menu) {
-            case "main":
-              goToMenu("testes");
-              $("#path").append('<span>Testes de Aptidão para Condução</span>');
-              //$("#button").attr("src","img/button3.png");
-              menuOpen = true;
-              
-            break;
-            case "testes":
-            break;
-            case "partilha":
-            break;
-            case "pontos":
-            break;
-          }
-          
+            }else{
+                liSelected = li.last().addClass('selected');
+            }
         }
       }else if(e.which === 39){ //right
-        if(menuOpen) {
-
-          if(liSelected) {
+        switch (menu) {
+          case "main":
+            goToMenu("pontos");
+            $("#path").append('<span>Pontos de Interesse</span>');
+            //$("#button").attr("src","img/button3.png");
+          break;
+          case "partilha":
+          break;
+          case "pontos":
+          break;
+          default:
+            if(liSelected) {
             if(liSelected[0].title) {
               var pathText = liSelected[0].textContent;
               $("#path").append('<span>'+pathText+'</span>');
               goToMenu(liSelected[0].title);
 
-
-              if(liSelected[0].children[0].children[0].id === "start-hours") {
+              var element = liSelected[0].children[0].children[0];
+              if(element.id === "start-hours") {
                 $('#start-hours').html(options.tests.interval.start.hours);
                 $('#start-minutes').html(options.tests.interval.start.minutes);
-              }else if(liSelected[0].children[0].children[0].id === "end-hours") {
+              }else if(element.id === "end-hours") {
                 $('#end-hours').html(options.tests.interval.end.hours);
                 $('#end-minutes').html(options.tests.interval.end.minutes);
               }
 
-            } else if(liSelected[0].children[0].children[0].id === "start-hours"){
+            } else if(element.id === "start-hours"){
               if(options.tests.interval.start.hours > 22) options.tests.interval.start.hours = -1;
               $('#start-hours').html(++options.tests.interval.start.hours);
-            } else if(liSelected[0].children[0].children[0].id === "start-minutes"){
+            } else if(element.id === "start-minutes"){
               if(options.tests.interval.start.minutes >= 50) options.tests.interval.start.minutes = -10;
               options.tests.interval.start.minutes += 10;
               $('#start-minutes').html(options.tests.interval.start.minutes);
-            } else if(liSelected[0].children[0].children[0].id === "end-hours"){
+            } else if(element.id === "end-hours"){
               if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
               $('#end-hours').html(++options.tests.interval.end.hours);
-            } else if(liSelected[0].children[0].children[0].id === "end-minutes"){
+            } else if(element.id === "end-minutes"){
               if(options.tests.interval.end.minutes >= 50) options.tests.interval.end.minutes = -10;
               $('#end-minutes').html(++options.tests.interval.end.minutes);
             } else if(liSelected[0].children[0]){
-              if(liSelected[0].children[0].children[0].checked) {
-                liSelected[0].children[0].children[0].checked = false;
+              if(element.checked) {
+                element.checked = false;
 
-                if (liSelected[0].children[0].children[0].id === "testsActive") {
+                if (element.id === "testsActive") {
                   if ($("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
                     $("li").next(liSelected[0]).addClass("disabled");
                   }
                   options.tests.active = false;
                 } else {
-                  if (liSelected[0].children[0].children[0].value === "todos") {
+                  if (element.value === "todos") {
                     $('[name="tipo"]').prop("checked", false);
                     for (var i = 0; i < 5 ; i++) {
                       options.tests.type[i] = false;
@@ -156,8 +148,8 @@ $(window).load(function(){
                 }
 
               } else {
-                liSelected[0].children[0].children[0].checked = true;
-                if (liSelected[0].children[0].children[0].id === "testsActive") {
+                element.checked = true;
+                if (element.id === "testsActive") {
                   if ($("li").next(liSelected[0]).attr("title").indexOf('menu-testes-') != -1){
                     $("li").next(liSelected[0]).removeClass("disabled");
                   }
@@ -198,49 +190,22 @@ $(window).load(function(){
           if (allChecked) {
             $('[value="todos"]').prop("checked", true);
           }*/
-
-        } else { 
-          switch (menu) {
-            case "main":
-              goToMenu("pontos");
-              $("#path").append('<span>Pontos de Interesse</span>');
-              //$("#button").attr("src","img/button3.png");
-              
-            break;
-            case "testes":
-            break;
-            case "partilha":
-            break;
-            case "pontos":
-            break;
-          }
         }
       }else if(e.which === 37){ //left
-        if(menuOpen || (menu.split("-").length - 1) <= 1) {
+        switch (menu) {
+          case "main":
+            goToMenu("partilha");
+            $("#path").append('<span>Partilha de Informação</span>');
+            //$("#button").attr("src","img/button3.png");
+            
+          break;
+          default:
             var ul = $('ul');
             if(ul && ul[0].title) {
               goToMenu(ul[0].title);
               $("#path").children().last().remove();
             }
-          if ((menu.split("-").length - 1) <= 1) {//caso em que estamos no primeiro menu de uma funcionalidade
-              menuOpen = false;
           }
-        } else { 
-          switch (menu) {
-            case "main":
-              goToMenu("partilha");
-              $("#path").append('<span>Partilha de Informação</span>');
-              //$("#button").attr("src","img/button3.png");
-              
-            break;
-            case "testes":
-            break;
-            case "partilha":
-            break;
-            case "pontos":
-            break;
-          }
-        }
       }
 
 

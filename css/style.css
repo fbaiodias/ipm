@@ -38,12 +38,7 @@ li {
 }
 
 li.selected {
-  opacity: 0.8;
-  width: 400px;
-  -webkit-transform: skew(-15deg);
-  -moz-transform: skew(-15deg);
-  -o-transform: skew(-15deg);
-  outline-width: 2px;
+  opacity: 0.9;
 }
 
 li.disabled {

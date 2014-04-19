@@ -18,6 +18,7 @@ var options = {
 } 
 
 var menuOpen = false;
+var menu = "main"; // main/tests/share/poi
 
 $(window).load(function(){
   goToMenu("main");

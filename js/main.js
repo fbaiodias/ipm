@@ -14,7 +14,24 @@ var options = {
       }
     },
     "type": [false, false, false, false, false]
-  } 
+  },
+  "sharing": {
+    "outgoing": {
+      "all": "Ninguém",
+      "name": "Ninguém",
+      "position": "Ninguém",
+      "photo": "Ninguém",
+      "destination": "Ninguém"
+    },
+    "incoming": {
+      "all": true,
+      "name": true,
+      "position": true,
+      "photo": true,
+      "destination": true
+    }
+
+  }
 } 
 
 var menu = "main";
@@ -49,7 +66,6 @@ $(window).load(function(){
               liSelected = li.eq(0).addClass('selected');
           }
       }
-
     }else if(e.which === 38){ //up
       switch (menu) {
         case "main":
@@ -91,6 +107,53 @@ $(window).load(function(){
         break;
         case "partilha":
         case "pontos":
+        break;
+        case "partilha-config-receber":
+          var input = $('li.selected div input');
+          var incoming = options.sharing.incoming;
+
+          incoming[input.attr('value')] ^= true //toggle boolean (XOR)
+
+          if (input.attr('value') == "all") {
+            for (var value in incoming) {
+              if (value != "all") {
+                incoming[value] = incoming['all'];
+              }
+            }
+          } else {
+            incoming['all'] = false;
+          }
+          var checks = 0;
+          var total = 0;
+          for (var value in incoming) {
+              total++;
+              if (incoming[value] && value != "all") {
+                checks++;
+              }
+          }
+          if (checks == total-1) {
+            incoming['all'] = true;
+          }
+
+        break;
+        case "partilha-config-enviar":
+          /*switch (liSelected[0].children[0].children[0].title) {
+            case ""
+          }*/
+          var title = liSelected[0].title;
+          switch (options.sharing.outgoing[title]) {
+            case "Ninguém":
+              options.sharing.outgoing[title] = "Conhecidos";
+            break;
+            case "Conhecidos":
+              options.sharing.outgoing[title] = "Todos";
+            break;
+            case "Todos":
+              options.sharing.outgoing[title] = "Ninguém";
+            break;
+          }
+          $('li.selected div span').html(options.sharing.outgoing[title]);
+
         break;
         default:
           if(liSelected) {
@@ -237,6 +300,20 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
+    //manter consistencia com variaveis
+    switch (menu) {
+      case "partilha-config-enviar":
+        for (var title in options.sharing.outgoing) {
+          $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
+        }
+      break;
+      case "partilha-config-receber":
+        for (var value in options.sharing.incoming) {
+          $("input[value='"+value+"']").prop('checked', options.sharing.incoming[value]);
+        }
+      break;
+    }
+
 
 
   });
@@ -244,13 +321,13 @@ $(window).load(function(){
 
 function goToMenu(id) {
   menu = id;
-  console.log(menu);
   var html = getHTML("partials/"+id+".html");
 
   $('#container').html(html);
 
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
+
 }
 
 function getHTML(url) {

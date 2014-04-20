@@ -14,9 +14,6 @@ canvas {
 	display: block;
 }
 
-ul {
-}
-
 li {
   border-radius: 5px;
 
@@ -200,4 +197,10 @@ input[type=checkbox]
   margin: 20 0 0 20;
   left: 20px;
   width: 420px;
+}
+
+.privacy {
+  position: absolute;
+  right: 40px;
+  width: 100px;
 }

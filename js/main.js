@@ -2,6 +2,7 @@ var li, liSelected;
 
 var options = {
   "tests": {
+    "started": false,
     "active": false,
     "interval": {
       "start": {
@@ -60,7 +61,7 @@ $(window).load(function(){
         case "partilha":
         case "pontos":
           goToMenu(menu + "-ajuda");
-          $("#path").append('<span>Ajuda</span>');
+          changePath("Ajuda")
         break;
         default:
           if(liSelected){
@@ -68,7 +69,7 @@ $(window).load(function(){
             if(next.length > 0 && !next.hasClass("disabled")){
               liSelected.removeClass('selected');
               liSelected = next.addClass('selected');
-            }else if (!li.eq(0).hasClass("disabled")){
+            } else if (!li.eq(0).hasClass("disabled")){
               liSelected.removeClass('selected');
               liSelected = li.eq(0).addClass('selected');
             }
@@ -80,16 +81,16 @@ $(window).load(function(){
       switch (menu) {
         case "main":
           goToMenu("testes");
-          $("#path").append('<span>Testes de Aptidão para Condução</span>');
+          changePath("Testes de Aptidão para Condução");
         break;
         case "partilha":
           goToMenu("partilha-config");
-          $("#path").append('<span>Opções</span>');
+          changePath("Opções");
           
         break;
         case "pontos":
           goToMenu("pontos-config");
-          $("#path").append('<span>Opções</span>');
+          changePath("Opções");
         break;
         default:
           if(liSelected){
@@ -110,7 +111,7 @@ $(window).load(function(){
       switch (menu) {
         case "main":
           goToMenu("pontos");
-          $("#path").append('<span>Pontos de Interesse</span>');
+          changePath("Pontos de Interesse");
         break;
         case "partilha":
         case "pontos":
@@ -169,8 +170,7 @@ $(window).load(function(){
         default:
           if(liSelected) {
           if(liSelected[0].title) {
-            var pathText = liSelected[0].textContent;
-            $("#path").append('<span>'+pathText+'</span>');
+            changePath(liSelected[0].textContent);
             goToMenu(liSelected[0].title);
 
             var element = liSelected[0].children[0].children[0];
@@ -239,33 +239,13 @@ $(window).load(function(){
             options.tests.type[i] = true;
           }
 
-        } /*else {
-          $('[name="tipo"]').prop("checked", false);
-          for (var i = 0; i < 5 ; i++) {
-            options.tests.type[i] = false;
-          }
-        }*/
-
-        /*if ($('[name="tipo"]').is(':checked')) {
-          $('[value="todos"]').prop("checked", true);
-          options.tests.type[0] = true;
         }
-        var allChecked = true;
-        for (var i = 1; i < 5 ; i++) {
-          console.log(options.tests.type[i]);
-          if (options.tests.type[i] != true) {
-            allChecked = false;
-          }
-        }
-        if (allChecked) {
-          $('[value="todos"]').prop("checked", true);
-        }*/
       }
     } else if(e.which === 37){ //left
       switch (menu) {
         case "main":
           goToMenu("partilha");
-          $("#path").append('<span>Partilha de Informação</span>');
+          changePath("Partilha de Informação");
         break;
         default:
           var ul = $('ul');
@@ -274,8 +254,7 @@ $(window).load(function(){
             goToMenu(ul[0].title);
             $("li.selected").removeClass("selected");
             liSelected = $("li[title='"+previousSelection+"']").addClass('selected');
-            console.log($("li[title='"+previousSelection+"']"));
-            $("#path").children().last().remove();
+            removePath();
           }
         }
     }
@@ -326,10 +305,9 @@ $(window).load(function(){
         $("#button").attr("src","img/button4.png");
       }
 
-    } else if ($("li.selected div span").attr('class') === "privacy") {
-      console.log('oi')
+    } else if ($("li.selected div span").hasClass("privacy")) {
       $("#button").attr("src","img/button7.png");
-    } else if ($("li.selected").attr('class') === "time") {
+    } else if ($("li.selected").hasClass("time")) {
       $("#button").attr("src","img/button5.png");
     } else {
       $("#button").attr("src","img/button3.png");
@@ -361,4 +339,19 @@ function getHTML(url) {
     }
   });
   return data;
+}
+
+function changePath(title) {
+
+  if(title != $("#path").children().last().text() ) { //para prevenir bugs no path
+    $("#path").append("<span>"+title+"</span>");
+    $("#path").children().last().animate({ marginLeft: "2"} , 100).hide().fadeToggle(100).dequeue();
+  }
+  
+}
+
+function removePath() {
+  $("#path").children().last().animate({ marginLeft: "-20"} , 100).fadeToggle(100, function() {
+    $(this).remove();
+  }).dequeue();
 }

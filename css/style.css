@@ -83,6 +83,7 @@ li img:last-child {
   font-size: 20px;
   margin: 2px;
   padding: 10 10 10 10px;
+  margin-left: -20px;
 
 }
 
@@ -99,13 +100,13 @@ li img:last-child {
 
 }
 
-#problem {
+.description {
   border-radius: 5px;
   color: #000;
   opacity: 0.8;
-  background: #fff;
-  padding: 20 0 20 10px;
-  width: 50%;
+  background: #a0d6ff;
+  padding: 20 20 20 20px;
+  max-width: 50%;
   margin: 10 0 0 0;
 
 }
@@ -188,7 +189,7 @@ input[type=checkbox]
   padding: 10px;
 }
 
-#nota_testes {
+.note {
   border-radius: 5px;
   color: #000;
   opacity: 0.8;

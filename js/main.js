@@ -31,10 +31,21 @@ var options = {
       "destination": true
     }
 
+  },
+  "points": {
+    "all": false,
+    "bathroom": false,
+    "entertainment": false,
+    "hotel": false,
+    "atm": false,
+    "restaurant": false,
+    "health": false,
+    "supermarket": false
   }
 } 
 
 var menu = "main";
+var previousSelection;
 
 $(window).load(function(){
 
@@ -50,7 +61,6 @@ $(window).load(function(){
         case "pontos":
           goToMenu(menu + "-ajuda");
           $("#path").append('<span>Ajuda</span>');
-          //$("#button").attr("src","img/button3.png");
         break;
         default:
           if(liSelected){
@@ -71,18 +81,15 @@ $(window).load(function(){
         case "main":
           goToMenu("testes");
           $("#path").append('<span>Testes de Aptidão para Condução</span>');
-          //$("#button").attr("src","img/button3.png");
         break;
         case "partilha":
           goToMenu("partilha-config");
           $("#path").append('<span>Opções</span>');
-          //$("#button").attr("src","img/button3.png");
           
         break;
         case "pontos":
           goToMenu("pontos-config");
           $("#path").append('<span>Opções</span>');
-          //$("#button").attr("src","img/button3.png");
         break;
         default:
           if(liSelected){
@@ -99,40 +106,44 @@ $(window).load(function(){
           }
       }
     }else if(e.which === 39){ //right
+      var items;
       switch (menu) {
         case "main":
           goToMenu("pontos");
           $("#path").append('<span>Pontos de Interesse</span>');
-          $("#button").attr("src","img/button7.png");
         break;
         case "partilha":
         case "pontos":
         break;
         case "partilha-config-receber":
+          items = options.sharing.incoming;
+        case "pontos-config":
+          if (!items) {
+            items = options.points;
+          }
           var input = $('li.selected div input');
-          var incoming = options.sharing.incoming;
 
-          incoming[input.attr('value')] ^= true //toggle boolean (XOR)
+          items[input.attr('value')] ^= true //toggle boolean (XOR)
 
           if (input.attr('value') == "all") {
-            for (var value in incoming) {
+            for (var value in items) {
               if (value != "all") {
-                incoming[value] = incoming['all'];
+                items[value] = items['all'];
               }
             }
           } else {
-            incoming['all'] = false;
+            items['all'] = false;
           }
           var checks = 0;
           var total = 0;
-          for (var value in incoming) {
+          for (var value in items) {
               total++;
-              if (incoming[value] && value != "all") {
+              if (items[value] && value != "all") {
                 checks++;
               }
           }
           if (checks == total-1) {
-            incoming['all'] = true;
+            items['all'] = true;
           }
 
         break;
@@ -250,21 +261,43 @@ $(window).load(function(){
           $('[value="todos"]').prop("checked", true);
         }*/
       }
-    }else if(e.which === 37){ //left
+    } else if(e.which === 37){ //left
       switch (menu) {
         case "main":
           goToMenu("partilha");
           $("#path").append('<span>Partilha de Informação</span>');
-          $("#button").attr("src","img/button7.png");
-          
         break;
         default:
           var ul = $('ul');
           if(ul && ul[0].title) {
+            previousSelection = menu;
             goToMenu(ul[0].title);
+            $("li.selected").removeClass("selected");
+            liSelected = $("li[title='"+previousSelection+"']").addClass('selected');
+            console.log($("li[title='"+previousSelection+"']"));
             $("#path").children().last().remove();
           }
         }
+    }
+
+    //manter consistencia com variaveis
+    var items;
+    switch (menu) {
+      case "partilha-config-enviar":
+        for (var title in options.sharing.outgoing) {
+          $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
+        }
+      break;
+      case "partilha-config-receber":
+          items = options.sharing.incoming;
+      case "pontos-config":
+        if (!items) {
+          items = options.points;
+        }
+        for (var value in items) {
+          $("input[value='"+value+"']").prop('checked', items[value]);
+        }
+      break;
     }
 
 
@@ -292,26 +325,14 @@ $(window).load(function(){
       } else {
         $("#button").attr("src","img/button4.png");
       }
-      
-    } else if (liSelected[0].children[0].children[1]) {
 
+    } else if ($("li.selected div span").attr('class') === "privacy") {
+      console.log('oi')
+      $("#button").attr("src","img/button7.png");
+    } else if ($("li.selected").attr('class') === "time") {
       $("#button").attr("src","img/button5.png");
     } else {
       $("#button").attr("src","img/button3.png");
-    }
-
-    //manter consistencia com variaveis
-    switch (menu) {
-      case "partilha-config-enviar":
-        for (var title in options.sharing.outgoing) {
-          $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
-        }
-      break;
-      case "partilha-config-receber":
-        for (var value in options.sharing.incoming) {
-          $("input[value='"+value+"']").prop('checked', options.sharing.incoming[value]);
-        }
-      break;
     }
 
 

@@ -1,5 +1,5 @@
 body {
-	background: url(../img/road.jpg) center no-repeat;
+	background: url(../img/road.jpg) center no-repeat fixed;
 	overflow: hidden;
   font-family: 'Helvetica', sans-serif;
 }
@@ -53,6 +53,9 @@ li div {
   -webkit-transform: skew(15deg);
   -moz-transform: skew(15deg);
   -o-transform: skew(15deg);
+}
+
+li div.has_icon {
   padding-left: 50px;
 }
 
@@ -207,43 +210,12 @@ input[type=checkbox]
   width: 100px;
 }
 
-.person {
+.overlay {
+  height: 100%;
+  width: 100%;
   position: absolute;
-  color: black;
-  opacity: 0.6;
-  background: white;
-  padding: 5 5 5 5;
-  width: 90px;
-  height: 200px;
-  right: 200px;
-  top: 100px;
-  border-radius: 5px;
-  text-align: center;
-
-}
-
-.person img {
-  position: absolute;
-  border-radius: 100px;
-  width: 90px;
-}
-
-.person span {
-  font-size: 10pt;
-}
-
-.triangle {
-  
-  width: 0; 
-  height: 0; 
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  
-  border-top: 20px solid white;
-
-  position: absolute;
-  bottom: -20px;
-  left: 30px;
+  top: 0;
+  left: 0;
 }
 
 .icon {
@@ -251,4 +223,26 @@ input[type=checkbox]
   width: 40px;
   top: -10px;
   left: -10px;
+
+
+.overlay #bathroom {
+  background: url(../img/overlays/bathroom.png) center no-repeat fixed;
+}
+.overlay #entertainment {
+  background: url(../img/overlays/entertainment.png) center no-repeat fixed;
+}
+.overlay #hotel {
+  background: url(../img/overlays/hotel.png) center no-repeat fixed;
+}
+.overlay #atm {
+  background: url(../img/overlays/atm.png) center no-repeat fixed;
+}
+.overlay #restaurant {
+  background: url(../img/overlays/restaurant.png) center no-repeat fixed;
+}
+.overlay #health {
+  background: url(../img/overlays/health.png) center no-repeat fixed;
+}
+.overlay #shopping {
+  background: url(../img/overlays/shopping.png) center no-repeat fixed;
 }

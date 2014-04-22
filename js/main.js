@@ -109,6 +109,7 @@ $(window).load(function(){
     }else if(e.which === 39){ //right
       var items;
       switch (menu) {
+        <h1> Vocês vão chumbar</h1>
         case "main":
           goToMenu("pontos");
           changePath("Pontos de Interesse");

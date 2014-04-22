@@ -5,14 +5,10 @@ var options = {
     "started": false,
     "active": false,
     "interval": {
-      "start": {
-        "hours": 22,
-        "minutes": 00,
-      },
-      "end": {
-        "hours": 22,
-        "minutes": 00,
-      }
+      "start-hours": 22,
+      "start-minutes": 00,
+      "end-hours": 22,
+      "end-minutes": 00
     },
     "type": [false, false, false, false, false]
   },
@@ -166,33 +162,26 @@ $(window).load(function(){
         break;
         default:
           if(liSelected) {
+          var element = liSelected[0].children[0].children[0];
           if(liSelected[0].title) {
             changePath(liSelected[0].textContent);
             goToMenu(liSelected[0].title);
 
-            var element = liSelected[0].children[0].children[0];
-            if(element.id === "start-hours") {
-              $('#start-hours').html(options.tests.interval.start.hours);
-              $('#start-minutes').html(options.tests.interval.start.minutes);
-            }else if(element.id === "end-hours") {
-              $('#end-hours').html(options.tests.interval.end.hours);
-              $('#end-minutes').html(options.tests.interval.end.minutes);
+          } else if (element.id.indexOf("hours") != -1){
+            if (options.tests.interval[element.id] < 23) {
+              options.tests.interval[element.id] += 1;
+            } else {
+              options.tests.interval[element.id] = 0;
             }
+          } else if (element.id.indexOf("minutes") != -1) {
+            if (options.tests.interval[element.id] < 50) {
+              options.tests.interval[element.id] += 10;
+            } else {
+              options.tests.interval[element.id] = 0;
+            }
+          } 
 
-          } else if(element.id === "start-hours"){
-            if(options.tests.interval.start.hours > 22) options.tests.interval.start.hours = -1;
-            $('#start-hours').html(++options.tests.interval.start.hours);
-          } else if(element.id === "start-minutes"){
-            if(options.tests.interval.start.minutes >= 50) options.tests.interval.start.minutes = -10;
-            options.tests.interval.start.minutes += 10;
-            $('#start-minutes').html(options.tests.interval.start.minutes);
-          } else if(element.id === "end-hours"){
-            if(options.tests.interval.end.hours > 22) options.tests.interval.end.hours = -1;
-            $('#end-hours').html(++options.tests.interval.end.hours);
-          } else if(element.id === "end-minutes"){
-            if(options.tests.interval.end.minutes >= 50) options.tests.interval.end.minutes = -10;
-            $('#end-minutes').html(++options.tests.interval.end.minutes);
-          } else if(liSelected[0].children[0]){
+          else if(liSelected[0].children[0]){
             if(element.checked) {
               element.checked = false;
 
@@ -273,6 +262,14 @@ $(window).load(function(){
         for (var value in items) {
           $("input[value='"+value+"']").prop('checked', items[value]);
         }
+      break;
+      case "testes-intervalo-inicio":
+        $('#start-minutes').html(options.tests.interval['start-minutes']);
+        $('#start-hours').html(options.tests.interval['start-hours']);
+      break;
+      case "testes-intervalo-fim":
+        $('#end-minutes').html(options.tests.interval['end-minutes']);
+        $('#end-hours').html(options.tests.interval['end-hours']);
       break;
     }
 

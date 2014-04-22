@@ -3,6 +3,7 @@ var li, liSelected, num, numSelected;
 var options = {
   "tests": {
     "started": false,
+    "finished": false,
     "active": false,
     "time": 30,
     "answer": 0,
@@ -70,6 +71,12 @@ $(window).load(function(){
             else {number = 9}
             numSelected[0].textContent = number;
           }
+          if (options.tests.finished) {
+            options.tests.finished = false;
+            goToMenu("main");
+            removePath();
+            setTimeout(removePath, 200);
+          }
         break;
         default:
           if(liSelected){
@@ -109,6 +116,12 @@ $(window).load(function(){
             }
             else {number = 0}
             numSelected[0].textContent = number; 
+          }
+          if (options.tests.finished) {
+            options.tests.finished = false;
+            goToMenu("main");
+            removePath();
+            setTimeout(removePath, 200);
           }
         break;
         default:
@@ -202,6 +215,12 @@ $(window).load(function(){
                 numSelected = num.eq(0).addClass('selected');
             }
           }
+          if (options.tests.finished) {
+            options.tests.finished = false;
+            goToMenu("main");
+            removePath();
+            setTimeout(removePath, 200);
+          }
         break;
         default:
           if(liSelected) {
@@ -293,6 +312,12 @@ $(window).load(function(){
                 numSelected = num.last().addClass('selected');
             }
           }
+          if (options.tests.finished) {
+            options.tests.finished = false;
+            goToMenu("main");
+            removePath();
+            setTimeout(removePath, 200);
+          }
         break;
         default:
           var ul = $('ul');
@@ -370,9 +395,6 @@ $(window).load(function(){
 
     toggleOverlays();
 
-    if (menu === "testes-executar") {
-      answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
-    }
 
 
 
@@ -465,16 +487,25 @@ function testCountDown() {
     $("#problemAfter").toggle();
     $("#testFailed").toggle();
     $("#timer").toggle();
-  } else if (options.tests.answer === options.tests.correct_answer) {
+  } else if (options.tests.answer === options.tests.correct_answer && !options.tests.finished) {
     $("#problemAfter").toggle();
     $("#timer").toggle();
     $("#testPassed").toggle();
+    options.tests.started = false;
+    options.tests.finished = true;
+    options.tests.time = 30;
   }
 
   else {
     options.tests.time--;
     $('#timerNumber').text(options.tests.time);
     setTimeout(testCountDown, 1000);
+  }
+
+  console.log(options.tests.answer);
+
+  if (menu == "testes-executar") {
+    options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
   }
 }
 

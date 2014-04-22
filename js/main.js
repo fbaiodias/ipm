@@ -20,14 +20,12 @@ var options = {
     "outgoing": {
       "all": "Ninguém",
       "name": "Ninguém",
-      "position": "Ninguém",
       "photo": "Ninguém",
       "destination": "Ninguém"
     },
     "incoming": {
       "all": true,
       "name": true,
-      "position": true,
       "photo": true,
       "destination": true
     }
@@ -312,15 +310,7 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
-    if (menu == "pontos" || menu == "pontos-config") {
-      for (var point in options.points) {
-        if (options.points[point]) {
-          $("#" + point).show();
-        } else {
-          $("#" + point).hide();
-        }
-      }
-    }
+    toggleOverlays();
 
   });
 });
@@ -334,15 +324,7 @@ function goToMenu(id) {
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
 
-  if (id == "pontos" || id == "pontos-config") {
-    for (var point in options.points) {
-      if (options.points[point]) {
-        $("#" + point).show();
-      } else {
-        $("#" + point).hide();
-      }
-    }
-  }
+  toggleOverlays();
 }
 
 function getHTML(url) {
@@ -370,4 +352,47 @@ function removePath() {
   $("#path").children().last().animate({ marginLeft: "-20"} , 100).fadeToggle(100, function() {
     $(this).remove();
   }).dequeue();
+}
+
+function toggleOverlays() {
+    if (menu == "pontos" || menu == "pontos-config") {
+    for (var point in options.points) {
+      if (options.points[point]) {
+        $("#" + point).show();
+      } else {
+        $("#" + point).hide();
+      }
+    }
+  } else {
+    $(".overlay").hide();
+  }
+
+  if (menu.indexOf("partilha") != -1) {
+    var noTrues = true;
+    $("#box").show();
+    for (var info in options.sharing.incoming) {
+      if (options.sharing.incoming[info]) {
+        $("#" + info).show();
+        noTrues = false;
+      } else {
+        $("#" + info).hide();
+      }
+    }
+
+    if(options.sharing.incoming.photo) {
+      $("#nophoto").hide();
+    } else {
+      $("#nophoto").show();
+    }
+
+    if (noTrues) {
+      $("#nophoto").hide();
+      $("#box").hide();
+    }
+
+  } else {
+    $(".overlay-sharing").hide();
+  }
+
+
 }

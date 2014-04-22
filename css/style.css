@@ -229,6 +229,15 @@ input[type=checkbox]
   display: none;
 }
 
+.overlay-sharing {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
 .icon {
   position:absolute;
   width: 40px;
@@ -263,5 +272,25 @@ div #health {
 }
 div #supermarket {
   background: url(../img/overlays/shopping.png) center no-repeat fixed;
+  background-size: cover;
+}
+div #name {
+  background: url(../img/overlays/sharing/names.png) center no-repeat fixed;
+  background-size: cover;
+}
+div #destination {
+  background: url(../img/overlays/sharing/destinations.png) center no-repeat fixed;
+  background-size: cover;
+}
+div #box {
+  background: url(../img/overlays/sharing/boxes.png) center no-repeat fixed;
+  background-size: cover;
+}
+div #nophoto {
+  background: url(../img/overlays/sharing/nophoto.png) center no-repeat fixed;
+  background-size: cover;
+}
+div #photo {
+  background: url(../img/overlays/sharing/photos.png) center no-repeat fixed;
   background-size: cover;
 }

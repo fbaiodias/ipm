@@ -5,6 +5,11 @@ body {
   font-family: 'Helvetica', sans-serif;
 }
 
+.super-container {
+  height: 100%;
+  position: relative;
+}
+
 .body-test {
   background: url(../img/night.jpg) center no-repeat;
   background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;

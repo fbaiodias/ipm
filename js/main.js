@@ -86,7 +86,6 @@ $(window).load(function(){
         case "partilha":
           goToMenu("partilha-config");
           changePath("Opções");
-          
         break;
         case "pontos":
           goToMenu("pontos-config");
@@ -109,7 +108,6 @@ $(window).load(function(){
     }else if(e.which === 39){ //right
       var items;
       switch (menu) {
-        <h1> Vocês vão chumbar</h1>
         case "main":
           goToMenu("pontos");
           changePath("Pontos de Interesse");
@@ -314,7 +312,7 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
-    if (menu === "pontos") {
+    if (menu == "pontos" || menu == "pontos-config") {
       for (var point in options.points) {
         if (options.points[point]) {
           $("#" + point).show();
@@ -336,8 +334,15 @@ function goToMenu(id) {
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
 
-
-
+  if (id == "pontos" || id == "pontos-config") {
+    for (var point in options.points) {
+      if (options.points[point]) {
+        $("#" + point).show();
+      } else {
+        $("#" + point).hide();
+      }
+    }
+  }
 }
 
 function getHTML(url) {

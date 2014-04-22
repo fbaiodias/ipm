@@ -4,11 +4,14 @@ var options = {
   "tests": {
     "started": false,
     "active": false,
+    "time": 30,
+    "answer": 0,
+    "correct_answer": 9,
     "interval": {
       "start-hours": 22,
       "start-minutes": 00,
       "end-hours": 22,
-      "end-minutes": 00
+      "end-minutes": 00,
     },
     "type": [false, false, false, false, false]
   },
@@ -59,7 +62,7 @@ $(window).load(function(){
         break;
         case "testes-executar":
           if (!options.tests.started) {
-            options.tests.started = true;
+            testStart()
           } else {
 
           }
@@ -94,7 +97,7 @@ $(window).load(function(){
         break;
         case "testes-executar":
           if (!options.tests.started) {
-            options.tests.started = true;
+            testStart()
           } else {
             
           }
@@ -175,8 +178,10 @@ $(window).load(function(){
 
         break;
         case "testes-executar":
+        console.log("'oiyfry");
           if (!options.tests.started) {
-            options.tests.started = true;
+            console.log("'oiyfr2222y");
+            testStart()
           } else {
             
           }
@@ -256,11 +261,8 @@ $(window).load(function(){
         break;
         case "testes-executar":
           if (!options.tests.started) {
-            options.tests.started = true;
+            testStart()
             console.log('oi')
-            $("#problemBefore").toggle();
-            $("#problemAfter").toggle();
-            $("#timer").toggle();
           } else {
             
           }
@@ -340,6 +342,10 @@ $(window).load(function(){
     }
 
     toggleOverlays();
+
+    if (menu === "testes-executar") {
+      answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
+    }
 
 
 
@@ -425,5 +431,31 @@ function toggleOverlays() {
     $(".overlay-sharing").hide();
   }
 
+}
 
+function testCountDown() {
+  if (options.tests.time <= 0) {
+    $("#problemAfter").toggle();
+    $("#testFailed").toggle();
+    $("#timer").toggle();
+  } else if (options.tests.answer === options.tests.correct_answer) {
+    $("#problemAfter").toggle();
+    $("#timer").toggle();
+    $("#testPassed").toggle();
+  }
+
+  else {
+    options.tests.time--;
+    $('#timerNumber').text(options.tests.time);
+    setTimeout(testCountDown, 1000);
+  }
+}
+
+function testStart() {
+
+  options.tests.started = true;
+  $("#problemBefore").toggle();
+  $("#problemAfter").toggle();
+  $("#timer").toggle();
+  setTimeout(testCountDown, 1000);
 }

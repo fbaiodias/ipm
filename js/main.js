@@ -57,6 +57,13 @@ $(window).load(function(){
           goToMenu(menu + "-ajuda");
           changePath("Ajuda")
         break;
+        case "testes-executar":
+          if (!options.tests.started) {
+            options.tests.started = true;
+          } else {
+
+          }
+        break;
         default:
           if(liSelected){
             next = liSelected.next();
@@ -84,6 +91,13 @@ $(window).load(function(){
         case "pontos":
           goToMenu("pontos-config");
           changePath("Opções");
+        break;
+        case "testes-executar":
+          if (!options.tests.started) {
+            options.tests.started = true;
+          } else {
+            
+          }
         break;
         default:
           if(liSelected){
@@ -117,7 +131,7 @@ $(window).load(function(){
           }
           var input = $('li.selected div input');
 
-          items[input.attr('value')] ^= true //toggle boolean (XOR)
+          items[input.attr('value')] ^= true; //toggle boolean (XOR)
 
           if (input.attr('value') == "all") {
             for (var value in items) {
@@ -159,6 +173,13 @@ $(window).load(function(){
           }
           $('li.selected div span').html(options.sharing.outgoing[title]);
 
+        break;
+        case "testes-executar":
+          if (!options.tests.started) {
+            options.tests.started = true;
+          } else {
+            
+          }
         break;
         default:
           if(liSelected) {
@@ -232,6 +253,17 @@ $(window).load(function(){
         case "main":
           goToMenu("partilha");
           changePath("Partilha de Informação");
+        break;
+        case "testes-executar":
+          if (!options.tests.started) {
+            options.tests.started = true;
+            console.log('oi')
+            $("#problemBefore").toggle();
+            $("#problemAfter").toggle();
+            $("#timer").toggle();
+          } else {
+            
+          }
         break;
         default:
           var ul = $('ul');
@@ -308,6 +340,8 @@ $(window).load(function(){
     }
 
     toggleOverlays();
+
+
 
   });
 });

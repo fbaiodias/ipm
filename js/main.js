@@ -1,4 +1,4 @@
-var li, liSelected;
+var li, liSelected, num, numSelected;
 
 var options = {
   "tests": {
@@ -51,6 +51,7 @@ $(window).load(function(){
 
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
+
   $(window).keydown(function(e){
     if(e.which === 40){ //down
       switch (menu) {
@@ -64,7 +65,10 @@ $(window).load(function(){
           if (!options.tests.started) {
             testStart()
           } else {
-
+            var number = eval(numSelected[0].textContent);
+            if(number>0) {number--;}
+            else {number = 9}
+            numSelected[0].textContent = number;
           }
         break;
         default:
@@ -99,7 +103,12 @@ $(window).load(function(){
           if (!options.tests.started) {
             testStart()
           } else {
-            
+            var number = eval(numSelected[0].textContent);
+            if(number<9) {
+              number++;
+            }
+            else {number = 0}
+            numSelected[0].textContent = number; 
           }
         break;
         default:
@@ -178,12 +187,20 @@ $(window).load(function(){
 
         break;
         case "testes-executar":
-        console.log("'oiyfry");
           if (!options.tests.started) {
-            console.log("'oiyfr2222y");
             testStart()
           } else {
-            
+            if(numSelected){
+                numSelected.removeClass('selected');
+                next = numSelected.next();
+                if(next.length > 0){
+                    numSelected = next.addClass('selected');
+                }else{
+                    numSelected = num.eq(0).addClass('selected');
+                }
+            }else{
+                numSelected = num.eq(0).addClass('selected');
+            }
           }
         break;
         default:
@@ -264,7 +281,17 @@ $(window).load(function(){
             testStart()
             console.log('oi')
           } else {
-            
+            if(numSelected){
+                numSelected.removeClass('selected');
+                next = numSelected.prev();
+                if(next.length > 0){
+                    numSelected = next.addClass('selected');
+                }else{
+                    numSelected = num.last().addClass('selected');
+                }
+            }else{
+                numSelected = num.last().addClass('selected');
+            }
           }
         break;
         default:
@@ -457,5 +484,9 @@ function testStart() {
   $("#problemBefore").toggle();
   $("#problemAfter").toggle();
   $("#timer").toggle();
+
+  num = $('b');
+  numSelected = li.eq(0).addClass('selected');
+
   setTimeout(testCountDown, 1000);
 }

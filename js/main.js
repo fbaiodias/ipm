@@ -313,7 +313,15 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
-
+    if (menu === "pontos") {
+      for (var point in options.points) {
+        if (options.points[point]) {
+          $("#" + point).show();
+        } else {
+          $("#" + point).hide();
+        }
+      }
+    }
 
   });
 });
@@ -326,6 +334,8 @@ function goToMenu(id) {
 
   li = $('li');
   liSelected = li.eq(0).addClass('selected');
+
+
 
 }
 

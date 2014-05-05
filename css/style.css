@@ -130,6 +130,7 @@ b.selected {
   margin-bottom: -20px;
   top: 6px;
   position: relative;
+  background: transparent;
   background-image: url('../img/arrows.png');
 }
 

@@ -75,9 +75,6 @@ $(window).load(function(){
 
       }
       answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
-
-
-      
   });
 });
 

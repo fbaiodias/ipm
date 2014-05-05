@@ -5,7 +5,7 @@ var options = {
     "started": false,
     "finished": false,
     "active": false,
-    "time": 30,
+    "time": 5,
     "answer": 0,
     "correct_answer": 9,
     "interval": {
@@ -40,6 +40,13 @@ var options = {
     "restaurant": false,
     "health": false,
     "supermarket": false
+  },
+  "controls": {
+    "all": false,
+    "heating": false,
+    "ac": false,
+    "autopilot": false,
+    "radio": false
   }
 } 
 
@@ -57,10 +64,13 @@ $(window).load(function(){
     if(e.which === 40){ //down
       switch (menu) {
         case "main":
+          goToMenu("controlos");
+          changePath("Controlos do Veículo");
+        break;
         case "partilha":
         case "pontos":
           goToMenu(menu + "-ajuda");
-          changePath("Ajuda")
+          changePath("Ajuda");
         break;
         case "testes-executar":
           if (!options.tests.started) {
@@ -72,6 +82,7 @@ $(window).load(function(){
             numSelected[0].textContent = number;
           }
           if (options.tests.finished) {
+            options.tests.answer = 0;
             options.tests.finished = false;
             goToMenu("main");
             removePath();
@@ -119,6 +130,8 @@ $(window).load(function(){
           }
           if (options.tests.finished) {
             options.tests.finished = false;
+            console.log(options.tests.finished);
+            options.tests.answer = 0;
             goToMenu("main");
             removePath();
             setTimeout(removePath, 200);
@@ -148,8 +161,12 @@ $(window).load(function(){
         case "partilha":
         case "pontos":
         break;
+        case "controlos":
+          items = options.controls;
         case "partilha-config-receber":
-          items = options.sharing.incoming;
+          if (!items) {
+            items = options.sharing.incoming;
+          }
         case "pontos-config":
           if (!items) {
             items = options.points;
@@ -217,6 +234,7 @@ $(window).load(function(){
           }
           if (options.tests.finished) {
             options.tests.finished = false;
+            options.tests.answer = 0;
             goToMenu("main");
             removePath();
             setTimeout(removePath, 200);
@@ -259,7 +277,6 @@ $(window).load(function(){
                     options.tests.type[i] = false;
                   }
                 }
-
                 $('[value="todos"]').prop("checked", false);
                 options.tests.type[0] = false;
                 options.tests.type[$("li").index(liSelected[0])] = false;
@@ -298,7 +315,6 @@ $(window).load(function(){
         case "testes-executar":
           if (!options.tests.started) {
             testStart()
-            console.log('oi')
           } else {
             if(numSelected){
                 numSelected.removeClass('selected');
@@ -314,6 +330,7 @@ $(window).load(function(){
           }
           if (options.tests.finished) {
             options.tests.finished = false;
+            options.tests.answer = 0;
             goToMenu("main");
             removePath();
             setTimeout(removePath, 200);
@@ -339,8 +356,12 @@ $(window).load(function(){
           $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
         }
       break;
+      case "controlos":
+        items = options.controls;
       case "partilha-config-receber":
+        if (!items) {
           items = options.sharing.incoming;
+        }
       case "pontos-config":
         if (!items) {
           items = options.points;
@@ -487,22 +508,27 @@ function testCountDown() {
     $("#problemAfter").toggle();
     $("#testFailed").toggle();
     $("#timer").toggle();
-  } else if (options.tests.answer === options.tests.correct_answer && !options.tests.finished) {
+    options.tests.started = false;
+    options.tests.finished = true;
+    console.log(1)
+    options.tests.time = 30;
+  } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
     $("#problemAfter").toggle();
     $("#timer").toggle();
     $("#testPassed").toggle();
     options.tests.started = false;
     options.tests.finished = true;
     options.tests.time = 30;
+    console.log(2)
   }
 
   else {
     options.tests.time--;
     $('#timerNumber').text(options.tests.time);
     setTimeout(testCountDown, 1000);
+    console.log(3)
   }
 
-  console.log(options.tests.answer);
 
   if (menu == "testes-executar") {
     options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());

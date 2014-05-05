@@ -55,6 +55,8 @@ var previousSelection;
 
 $(window).load(function(){
 
+  setInterval(testCountDown, 1000);
+
   goToMenu("main");
 
   li = $('li');
@@ -119,7 +121,7 @@ $(window).load(function(){
         break;
         case "testes-executar":
           if (!options.tests.started) {
-            testStart()
+            testStart();
           } else {
             var number = eval(numSelected[0].textContent);
             if(number<9) {
@@ -314,7 +316,7 @@ $(window).load(function(){
         break;
         case "testes-executar":
           if (!options.tests.started) {
-            testStart()
+            goToMenu("main");
           } else {
             if(numSelected){
                 numSelected.removeClass('selected');
@@ -399,7 +401,7 @@ $(window).load(function(){
     //Alterar botao
     $("#button").attr("src","img/button-"+menu+".png");
 
-    if(liSelected[0].children[0].children[0].type === "checkbox"){
+    if(liSelected[0] && liSelected[0].children[0] && liSelected[0].children[0].children[0] && liSelected[0].children[0].children[0].type === "checkbox"){
       if(liSelected[0].children[0].children[0].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
@@ -510,8 +512,8 @@ function testCountDown() {
     $("#timer").toggle();
     options.tests.started = false;
     options.tests.finished = true;
-    console.log(1)
     options.tests.time = 30;
+    options.tests.answer = 0;
   } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
     $("#problemAfter").toggle();
     $("#timer").toggle();
@@ -519,15 +521,11 @@ function testCountDown() {
     options.tests.started = false;
     options.tests.finished = true;
     options.tests.time = 30;
-    console.log(2)
+    options.tests.answer = 0;
   }
 
-  else {
-    options.tests.time--;
-    $('#timerNumber').text(options.tests.time);
-    setTimeout(testCountDown, 1000);
-    console.log(3)
-  }
+  options.tests.time--;
+  $('#timerNumber').text(options.tests.time);
 
 
   if (menu == "testes-executar") {
@@ -536,14 +534,19 @@ function testCountDown() {
 }
 
 function testStart() {
+  goToMenu("testes-executar");
+  
+  options.tests.time = 30;
+  options.tests.answer = 0;
 
+  options.tests.finished = false;
   options.tests.started = true;
   $("#problemBefore").toggle();
   $("#problemAfter").toggle();
   $("#timer").toggle();
 
   num = $('b');
-  numSelected = li.eq(0).addClass('selected');
-
-  setTimeout(testCountDown, 1000);
+  $('#x00').text('0');
+  $('#0x0').text('0');
+  $('#00x').text('0');
 }

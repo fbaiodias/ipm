@@ -219,20 +219,16 @@ $(window).load(function(){
 
         break;
         case "testes-executar":
-          if (!options.tests.started) {
-            testStart()
-          } else {
-            if(numSelected){
-                numSelected.removeClass('selected');
-                next = numSelected.next();
-                if(next.length > 0){
-                    numSelected = next.addClass('selected');
-                }else{
-                    numSelected = num.eq(0).addClass('selected');
-                }
-            }else{
-                numSelected = num.eq(0).addClass('selected');
-            }
+          if(numSelected){
+              numSelected.removeClass('selected');
+              next = numSelected.next();
+              if(next.length > 0){
+                  numSelected = next.addClass('selected');
+              }else{
+                  numSelected = num.eq(0).addClass('selected');
+              }
+          }else{
+              numSelected = num.eq(0).addClass('selected');
           }
           if (options.tests.finished) {
             options.tests.finished = false;
@@ -401,7 +397,7 @@ $(window).load(function(){
     //Alterar botao
     $("#button").attr("src","img/button-"+menu+".png");
 
-    if(liSelected[0] && liSelected[0].children[0] && liSelected[0].children[0].children[0] && liSelected[0].children[0].children[0].type === "checkbox"){
+    if(liSelected[0].children[0].children[0].type === "checkbox"){
       if(liSelected[0].children[0].children[0].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
@@ -434,6 +430,20 @@ function goToMenu(id) {
   liSelected = li.eq(0).addClass('selected');
 
   toggleOverlays();
+  if (menu == "testes-executar") {  
+    options.tests.time = 30;
+    options.tests.answer = 0;
+
+    options.tests.finished = false;
+    options.tests.started = true;
+
+    num = $('b');
+    $('#x00').text('0');
+    $('#0x0').text('0');
+    $('#00x').text('0');
+
+    numSelected = $('.number.selected')
+  }
 }
 
 function getHTML(url) {
@@ -506,47 +516,36 @@ function toggleOverlays() {
 }
 
 function testCountDown() {
-  if (options.tests.time <= 0) {
-    $("#problemAfter").toggle();
-    $("#testFailed").toggle();
-    $("#timer").toggle();
-    options.tests.started = false;
-    options.tests.finished = true;
-    options.tests.time = 30;
-    options.tests.answer = 0;
-  } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
-    $("#problemAfter").toggle();
-    $("#timer").toggle();
-    $("#testPassed").toggle();
-    options.tests.started = false;
-    options.tests.finished = true;
-    options.tests.time = 30;
-    options.tests.answer = 0;
-  }
-
-  options.tests.time--;
-  $('#timerNumber').text(options.tests.time);
-
-
   if (menu == "testes-executar") {
-    options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
+    if (options.tests.time <= 0) {
+      $("#problemAfter").toggle();
+      $("#testFailed").toggle();
+      $("#timer").toggle();
+      options.tests.started = false;
+      options.tests.finished = true;
+      options.tests.time = 30;
+      options.tests.answer = 0;
+    } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
+      $("#problemAfter").toggle();
+      $("#timer").toggle();
+      $("#testPassed").toggle();
+      options.tests.started = false;
+      options.tests.finished = true;
+      options.tests.time = 30;
+      options.tests.answer = 0;
+    }
+
+    options.tests.time--;
+    $('#timerNumber').text(options.tests.time);
+
+
+    if (menu == "testes-executar") {
+      options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
+    }
   }
+  
 }
 
 function testStart() {
-  goToMenu("testes-executar");
-  
-  options.tests.time = 30;
-  options.tests.answer = 0;
 
-  options.tests.finished = false;
-  options.tests.started = true;
-  $("#problemBefore").toggle();
-  $("#problemAfter").toggle();
-  $("#timer").toggle();
-
-  num = $('b');
-  $('#x00').text('0');
-  $('#0x0').text('0');
-  $('#00x').text('0');
 }

@@ -169,7 +169,6 @@ b.selected {
   width: 60px;
   margin: 10 0 0 0;
   text-align: center;
-  display: none;
 
 }
 
@@ -179,10 +178,6 @@ b.selected {
   left: 20px;
   top: 6px;
   position: relative;
-}
-
-#problemAfter {
-  display: none;
 }
 
 #testFailed {

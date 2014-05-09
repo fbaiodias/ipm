@@ -32,14 +32,14 @@ var options = {
 
   },
   "points": {
-    "all": false,
-    "bathroom": false,
-    "entertainment": false,
-    "hotel": false,
-    "atm": false,
-    "restaurant": false,
-    "health": false,
-    "supermarket": false
+    "all": true,
+    "bathroom": true,
+    "entertainment": true,
+    "hotel": true,
+    "atm": true,
+    "restaurant": true,
+    "health": true,
+    "supermarket": true
   },
   "controls": {
     "all": false,
@@ -112,10 +112,12 @@ $(window).load(function(){
           changePath("Testes de Aptidão para Condução");
         break;
         case "partilha":
+        case "partilha-ajuda":
           goToMenu("partilha-config");
           changePath("Opções");
         break;
         case "pontos":
+        case "pontos-ajuda":
           goToMenu("pontos-config");
           changePath("Opções");
         break;
@@ -412,6 +414,11 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
+    if(menu.indexOf("ajuda") != -1) {
+      console.log(4444)
+      $("#button").attr("src","img/button-help.png");
+    }
+
     toggleOverlays();
 
 
@@ -420,7 +427,7 @@ $(window).load(function(){
   });
 });
 
-function goToMenu(id) {
+function goToMenu(id) {  
   menu = id;
   var html = getHTML("partials/"+id+".html");
 
@@ -443,6 +450,10 @@ function goToMenu(id) {
     $('#00x').text('0');
 
     numSelected = $('.number.selected')
+  }
+
+  if(menu == "main") {
+    setTimeout(showHelp, 5000);
   }
 }
 
@@ -546,6 +557,8 @@ function testCountDown() {
   
 }
 
-function testStart() {
-
+function showHelp() {
+  if (menu == "main") {
+    $("#button").attr("src","img/helpoverlay.png");
+  }
 }

@@ -125,6 +125,17 @@ li img:last-child {
 
 }
 
+.warning {
+  border-radius: 5px;
+  color: #000;
+  opacity: 0.9;
+  background: #FFDE4A;
+  padding: 20 20 20 20px;
+  max-width: 400px;
+  margin: 10 0 0 0;
+
+}
+
 b.selected {
   font-size: 150%;
   margin-bottom: -20px;

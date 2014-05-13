@@ -74,7 +74,7 @@ $(window).load(function(){
           goToMenu(menu + "-ajuda");
           changePath("Ajuda");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             testStart()
           } else {
@@ -121,7 +121,7 @@ $(window).load(function(){
           goToMenu("pontos-config");
           changePath("Opções");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             testStart();
           } else {
@@ -165,8 +165,12 @@ $(window).load(function(){
         case "partilha":
         case "pontos":
         break;
+        case "testes-intervalo":
+          items = options.tests;
         case "controlos":
-          items = options.controls;
+          if (!items) {
+            items = options.controls;
+          }
         case "partilha-config-receber":
           if (!items) {
             items = options.sharing.incoming;
@@ -175,6 +179,7 @@ $(window).load(function(){
           if (!items) {
             items = options.points;
           }
+          console.log(items)
           var input = $('li.selected div input');
 
           items[input.attr('value')] ^= true; //toggle boolean (XOR)
@@ -220,7 +225,7 @@ $(window).load(function(){
           $('li.selected div span').html(options.sharing.outgoing[title]);
 
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if(numSelected){
               numSelected.removeClass('selected');
               next = numSelected.next();
@@ -240,7 +245,8 @@ $(window).load(function(){
             setTimeout(removePath, 200);
           }
         break;
-        default:
+      }
+        if(menu != "pontos") {
           if(liSelected) {
           var element = liSelected[0].children[0].children[0];
           if(liSelected[0].title) {
@@ -296,13 +302,13 @@ $(window).load(function(){
 
             }
           }
-        }
 
         if ($('[value="todos"]').is(':checked') ){
           $('[name="tipo"]').prop("checked", true);
           for (var i = 0; i < 5 ; i++) {
             options.tests.type[i] = true;
           }
+        }
 
         }
       }
@@ -312,7 +318,7 @@ $(window).load(function(){
           goToMenu("partilha");
           changePath("Partilha de Informação");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             goToMenu("main");
           } else {
@@ -356,8 +362,12 @@ $(window).load(function(){
           $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
         }
       break;
+      case "testes-intervalo":
+        items = options.tests;
       case "controlos":
-        items = options.controls;
+        if (!items) {
+          items = options.controls;
+        }
       case "partilha-config-receber":
         if (!items) {
           items = options.sharing.incoming;
@@ -400,7 +410,16 @@ $(window).load(function(){
     $("#button").attr("src","img/button-"+menu+".png");
 
     if(liSelected[0].children[0].children[0].type === "checkbox"){
+      console.log("checkbox")
       if(liSelected[0].children[0].children[0].checked === true) {
+        $("#button").attr("src","img/button6.png");
+      } else {
+        $("#button").attr("src","img/button4.png");
+      }
+
+    } else if (liSelected[0].children[0].children[1].type === "checkbox"){
+      console.log("checkbox")
+      if(liSelected[0].children[0].children[1].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
         $("#button").attr("src","img/button4.png");
@@ -437,7 +456,7 @@ function goToMenu(id) {
   liSelected = li.eq(0).addClass('selected');
 
   toggleOverlays();
-  if (menu == "testes-executar") {  
+  if (menu == "testes-executar-iniciar") {  
     options.tests.time = 30;
     options.tests.answer = 0;
 
@@ -527,7 +546,7 @@ function toggleOverlays() {
 }
 
 function testCountDown() {
-  if (menu == "testes-executar") {
+  if (menu == "testes-executar-iniciar") {
     if (options.tests.time <= 0) {
       $("#problemAfter").toggle();
       $("#testFailed").toggle();
@@ -550,7 +569,7 @@ function testCountDown() {
     $('#timerNumber').text(options.tests.time);
 
 
-    if (menu == "testes-executar") {
+    if (menu == "testes-executar-iniciar") {
       options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
     }
   }

@@ -113,12 +113,15 @@ $(window).load(function(){
         break;
         case "partilha":
         case "partilha-ajuda":
+
           goToMenu("partilha-config");
+          removePath();
           changePath("Opções");
         break;
         case "pontos":
         case "pontos-ajuda":
           goToMenu("pontos-config");
+          removePath();
           changePath("Opções");
         break;
         case "testes-executar-iniciar":

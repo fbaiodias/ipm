@@ -36,7 +36,7 @@ li {
   -webkit-transform: skew(-15deg);
   -moz-transform: skew(-15deg);
   -o-transform: skew(-15deg);
-  font-size: 20;
+  font-size: 15pt;
   /*outline: solid white 1px;*/
 }
 
@@ -133,7 +133,7 @@ li img:last-child {
   padding: 20 20 20 20px;
   max-width: 400px;
   margin: 10 0 0 0;
-  font-size: 15pt;
+  font-size: 13pt;
 
 }
 

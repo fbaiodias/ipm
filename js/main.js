@@ -134,7 +134,6 @@ $(window).load(function(){
           }
           if (options.tests.finished) {
             options.tests.finished = false;
-            console.log(options.tests.finished);
             options.tests.answer = 0;
             goToMenu("main");
             removePath();
@@ -179,7 +178,6 @@ $(window).load(function(){
           if (!items) {
             items = options.points;
           }
-          console.log(items)
           var input = $('li.selected div input');
 
           items[input.attr('value')] ^= true; //toggle boolean (XOR)
@@ -410,15 +408,13 @@ $(window).load(function(){
     $("#button").attr("src","img/button-"+menu+".png");
 
     if(liSelected[0].children[0].children[0].type === "checkbox"){
-      console.log("checkbox")
       if(liSelected[0].children[0].children[0].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
         $("#button").attr("src","img/button4.png");
       }
 
-    } else if (liSelected[0].children[0].children[1].type === "checkbox"){
-      console.log("checkbox")
+    } else if (liSelected[0].children[0].children[1] && liSelected[0].children[0].children[1].type === "checkbox"){
       if(liSelected[0].children[0].children[1].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
@@ -434,7 +430,6 @@ $(window).load(function(){
     }
 
     if(menu.indexOf("ajuda") != -1) {
-      console.log(4444)
       $("#button").attr("src","img/button-help.png");
     }
 

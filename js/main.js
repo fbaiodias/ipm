@@ -55,14 +55,14 @@ var options = {
 
   },
   "points": {
-    "all": false,
-    "bathroom": false,
-    "entertainment": false,
-    "hotel": false,
-    "atm": false,
-    "restaurant": false,
-    "health": false,
-    "supermarket": false
+    "all": true,
+    "bathroom": true,
+    "entertainment": true,
+    "hotel": true,
+    "atm": true,
+    "restaurant": true,
+    "health": true,
+    "supermarket": true
   },
   "controls": {
     "all": false,
@@ -97,7 +97,7 @@ $(window).load(function(){
           goToMenu(menu + "-ajuda");
           changePath("Ajuda");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             testStart()
           } else {
@@ -135,14 +135,19 @@ $(window).load(function(){
           changePath("Testes de Aptidão para Condução");
         break;
         case "partilha":
+        case "partilha-ajuda":
+
           goToMenu("partilha-config");
+          removePath();
           changePath("Opções");
         break;
         case "pontos":
+        case "pontos-ajuda":
           goToMenu("pontos-config");
+          removePath();
           changePath("Opções");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             testStart();
           } else {
@@ -155,7 +160,6 @@ $(window).load(function(){
           }
           if (options.tests.finished) {
             options.tests.finished = false;
-            console.log(options.tests.finished);
             options.tests.answer = 0;
             goToMenu("main");
             removePath();
@@ -186,8 +190,12 @@ $(window).load(function(){
         case "partilha":
         case "pontos":
         break;
+        case "testes-intervalo":
+          items = options.tests;
         case "controlos":
-          items = options.controls;
+          if (!items) {
+            items = options.controls;
+          }
         case "partilha-config-receber":
           if (!items) {
             items = options.sharing.incoming;
@@ -241,21 +249,17 @@ $(window).load(function(){
           $('li.selected div span').html(options.sharing.outgoing[title]);
 
         break;
-        case "testes-executar":
-          if (!options.tests.started) {
-            testStart()
-          } else {
-            if(numSelected){
-                numSelected.removeClass('selected');
-                next = numSelected.next();
-                if(next.length > 0){
-                    numSelected = next.addClass('selected');
-                }else{
-                    numSelected = num.eq(0).addClass('selected');
-                }
-            }else{
-                numSelected = num.eq(0).addClass('selected');
-            }
+        case "testes-executar-iniciar":
+          if(numSelected){
+              numSelected.removeClass('selected');
+              next = numSelected.next();
+              if(next.length > 0){
+                  numSelected = next.addClass('selected');
+              }else{
+                  numSelected = num.eq(0).addClass('selected');
+              }
+          }else{
+              numSelected = num.eq(0).addClass('selected');
           }
           if (options.tests.finished) {
             options.tests.finished = false;
@@ -265,7 +269,8 @@ $(window).load(function(){
             setTimeout(removePath, 200);
           }
         break;
-        default:
+      }
+        if(menu != "pontos") {
           if(liSelected) {
           var element = liSelected[0].children[0].children[0];
           if(liSelected[0].title) {
@@ -321,13 +326,13 @@ $(window).load(function(){
 
             }
           }
-        }
 
         if ($('[value="todos"]').is(':checked') ){
           $('[name="tipo"]').prop("checked", true);
           for (var i = 0; i < 5 ; i++) {
             options.tests.type[i] = true;
           }
+        }
 
         }
       }
@@ -337,7 +342,7 @@ $(window).load(function(){
           goToMenu("partilha");
           changePath("Partilha de Informação");
         break;
-        case "testes-executar":
+        case "testes-executar-iniciar":
           if (!options.tests.started) {
             goToMenu("main");
           } else {
@@ -381,8 +386,12 @@ $(window).load(function(){
           $("li[title='"+title+"'] div span").html(options.sharing.outgoing[title]);
         }
       break;
+      case "testes-intervalo":
+        items = options.tests;
       case "controlos":
-        items = options.controls;
+        if (!items) {
+          items = options.controls;
+        }
       case "partilha-config-receber":
         if (!items) {
           items = options.sharing.incoming;
@@ -424,8 +433,15 @@ $(window).load(function(){
     //Alterar botao
     $("#button").attr("src","img/button-"+menu+".png");
 
-    if(liSelected[0] && liSelected[0].children[0] && liSelected[0].children[0].children[0] && liSelected[0].children[0].children[0].type === "checkbox"){
+    if(liSelected[0].children[0].children[0].type === "checkbox"){
       if(liSelected[0].children[0].children[0].checked === true) {
+        $("#button").attr("src","img/button6.png");
+      } else {
+        $("#button").attr("src","img/button4.png");
+      }
+
+    } else if (liSelected[0].children[0].children[1] && liSelected[0].children[0].children[1].type === "checkbox"){
+      if(liSelected[0].children[0].children[1].checked === true) {
         $("#button").attr("src","img/button6.png");
       } else {
         $("#button").attr("src","img/button4.png");
@@ -439,6 +455,10 @@ $(window).load(function(){
       $("#button").attr("src","img/button3.png");
     }
 
+    if(menu.indexOf("ajuda") != -1) {
+      $("#button").attr("src","img/button-help.png");
+    }
+
     toggleOverlays();
 
 
@@ -447,7 +467,7 @@ $(window).load(function(){
   });
 });
 
-function goToMenu(id) {
+function goToMenu(id) {  
   menu = id;
   var html = htmls[id];
 
@@ -457,6 +477,24 @@ function goToMenu(id) {
   liSelected = li.eq(0).addClass('selected');
 
   toggleOverlays();
+  if (menu == "testes-executar-iniciar") {  
+    options.tests.time = 30;
+    options.tests.answer = 0;
+
+    options.tests.finished = false;
+    options.tests.started = true;
+
+    num = $('b');
+    $('#x00').text('0');
+    $('#0x0').text('0');
+    $('#00x').text('0');
+
+    numSelected = $('.number.selected')
+  }
+
+  if(menu == "main") {
+    setTimeout(showHelp, 5000);
+  }
 }
 
 function changePath(title) {
@@ -517,47 +555,38 @@ function toggleOverlays() {
 }
 
 function testCountDown() {
-  if (options.tests.time <= 0) {
-    $("#problemAfter").toggle();
-    $("#testFailed").toggle();
-    $("#timer").toggle();
-    options.tests.started = false;
-    options.tests.finished = true;
-    options.tests.time = 30;
-    options.tests.answer = 0;
-  } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
-    $("#problemAfter").toggle();
-    $("#timer").toggle();
-    $("#testPassed").toggle();
-    options.tests.started = false;
-    options.tests.finished = true;
-    options.tests.time = 30;
-    options.tests.answer = 0;
+  if (menu == "testes-executar-iniciar") {
+    if (options.tests.time <= 0) {
+      $("#problemAfter").toggle();
+      $("#testFailed").toggle();
+      $("#timer").toggle();
+      options.tests.started = false;
+      options.tests.finished = true;
+      options.tests.time = 30;
+      options.tests.answer = 0;
+    } else if ((options.tests.answer == options.tests.correct_answer) && !options.tests.finished) {
+      $("#problemAfter").toggle();
+      $("#timer").toggle();
+      $("#testPassed").toggle();
+      options.tests.started = false;
+      options.tests.finished = true;
+      options.tests.time = 30;
+      options.tests.answer = 0;
+    }
+
+    options.tests.time--;
+    $('#timerNumber').text(options.tests.time);
+
+
+    if (menu == "testes-executar-iniciar") {
+      options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
+    }
   }
-
-  options.tests.time--;
-  $('#timerNumber').text(options.tests.time);
-
-
-  if (menu == "testes-executar") {
-    options.tests.answer = 100*eval($("#x00").text()) + 10 *eval($("#0x0").text()) + eval($("#00x").text());
-  }
+  
 }
 
-function testStart() {
-  goToMenu("testes-executar");
-  
-  options.tests.time = 30;
-  options.tests.answer = 0;
-
-  options.tests.finished = false;
-  options.tests.started = true;
-  $("#problemBefore").toggle();
-  $("#problemAfter").toggle();
-  $("#timer").toggle();
-
-  num = $('b');
-  $('#x00').text('0');
-  $('#0x0').text('0');
-  $('#00x').text('0');
+function showHelp() {
+  if (menu == "main") {
+    $("#button").attr("src","img/helpoverlay.png");
+  }
 }

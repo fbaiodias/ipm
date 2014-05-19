@@ -138,7 +138,7 @@ $(window).load(function(){
         case "partilha-ajuda":
 
           goToMenu("partilha-config");
-          removePath();
+          //removePath();
           changePath("Opções");
         break;
         case "pontos":

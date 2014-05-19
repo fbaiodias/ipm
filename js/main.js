@@ -235,6 +235,7 @@ $(window).load(function(){
             case ""
           }*/
           var title = liSelected[0].title;
+          console.log(title);
           switch (options.sharing.outgoing[title]) {
             case "Ninguém":
               options.sharing.outgoing[title] = "Conhecidos";
@@ -270,8 +271,11 @@ $(window).load(function(){
           }
         break;
       }
-        if(menu != "pontos") {
-          if(liSelected) {
+
+      console.log(menu)
+
+      if(menu != "pontos" && menu != "partilha-config-enviar" ) {
+        if(liSelected) {
           var element = liSelected[0].children[0].children[0];
           if(liSelected[0].title) {
             changePath(liSelected[0].textContent);
@@ -311,7 +315,6 @@ $(window).load(function(){
                 options.tests.type[0] = false;
                 options.tests.type[$("li").index(liSelected[0])] = false;
               }
-
             } else {
               element.checked = true;
               if (element.id === "testsActive") {
@@ -322,18 +325,15 @@ $(window).load(function(){
               } else {
                 options.tests.type[$("li").index(liSelected[0])] = true;
               }
-
-
             }
           }
 
-        if ($('[value="todos"]').is(':checked') ){
-          $('[name="tipo"]').prop("checked", true);
-          for (var i = 0; i < 5 ; i++) {
-            options.tests.type[i] = true;
+          if ($('[value="todos"]').is(':checked') ){
+            $('[name="tipo"]').prop("checked", true);
+            for (var i = 0; i < 5 ; i++) {
+              options.tests.type[i] = true;
+            }
           }
-        }
-
         }
       }
     } else if(e.which === 37){ //left

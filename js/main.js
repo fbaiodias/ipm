@@ -494,6 +494,7 @@ function goToMenu(id) {
 
   if(menu == "main") {
     setTimeout(showHelp, 5000);
+    $("#path").html("")
   }
 }
 
